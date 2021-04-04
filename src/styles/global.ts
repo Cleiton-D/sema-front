@@ -1,13 +1,92 @@
 import {
   GlobalStyleComponent,
   DefaultTheme,
-  createGlobalStyle
+  createGlobalStyle,
+  css
 } from 'styled-components';
 
+type GlobalStyleProps = {
+  i?: string;
+};
+
 const GlobalStyles: GlobalStyleComponent<
-  never,
+  GlobalStyleProps,
   DefaultTheme
 > = createGlobalStyle`
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 300;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-300.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 300;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-300italic.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-regular.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 400;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-italic.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-600.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 600;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-600italic.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    src: local(''),
+        url('/fonts/inter/inter-v3-latin-300.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+        url('/fonts/inter/inter-v3-latin-regular.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    src: local(''),
+        url('/fonts/inter/inter-v3-latin-600.woff2') format('woff2');
+  }
+
+
   * {
     margin: 0;
     padding: 0;
@@ -23,11 +102,12 @@ const GlobalStyles: GlobalStyleComponent<
   }
 
   body {
-    font-family: Arial;
-    font-size: 2rem;
-
-    height: 100vh;
-    width: 100vw;
+    ${({ theme }) => css`
+      font-family: ${theme.font.poppins};
+      font-size: 2rem;
+      height: 100vh;
+      width: 100vw;
+    `}
   }
 
   button {
