@@ -29,15 +29,16 @@ export const Input = styled.input<InputProps>`
     `}
 
     &::before {
+      transition: transform 0.3s ease, opacity 0.2s;
       content: '';
       width: 0.6rem;
       height: 0.9rem;
       border: 0.2rem solid ${theme.colors.white};
       border-top: 0;
       border-left: 0;
-      transform: rotate(45deg);
       position: absolute;
       top: 0.1rem;
+      transform: rotate(20deg);
       opacity: 0;
     }
 
@@ -47,9 +48,14 @@ export const Input = styled.input<InputProps>`
 
     &:checked {
       background: ${theme.colors.primary};
-      border-width: 0.2rem;
+      border-width: 0.3rem;
+
       &::before {
+        transition: transform 0.6s cubic-bezier(0.2, 0.85, 0.32, 1.2),
+          opacity 0.3s;
+
         opacity: 1;
+        transform: rotate(43deg);
       }
     }
     &:disabled {
