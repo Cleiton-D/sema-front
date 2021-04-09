@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "next": "10.0.9",
     "next-auth": "^3.13.2",
+    "polished": "^4.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "styled-components": "^5.2.1"
