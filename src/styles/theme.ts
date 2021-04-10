@@ -36,6 +36,7 @@ export default {
     primary: '#0393BE',
     black: '#000000',
     white: '#ffffff',
+    secondary: '#0DBF87',
     transparent: 'transparent'
   },
   colors: {
