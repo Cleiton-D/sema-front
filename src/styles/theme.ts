@@ -25,7 +25,6 @@ export default {
       huge: '5.2rem'
     }
   },
-<<<<<<< HEAD
   background: {
     primary: '#0393BE',
     black: '#000000',
@@ -33,8 +32,6 @@ export default {
     secondary: '#0DBF87',
     transparent: 'transparent'
   },
-=======
->>>>>>> parent of ebbaca0 (Created button component)
   colors: {
     primary: '#0393BE',
     secondary: '#0DBF87',
