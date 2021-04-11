@@ -8,22 +8,22 @@ const wrapperModifiers = {
   green: (theme: DefaultTheme) => css`
     border: 0.1rem solid ${theme.background.secondary};
     color: ${theme.colors.secondary};
-    border-radius: ${theme.border.rounded};
+    border-radius: 10rem;
   `,
   blue: (theme: DefaultTheme) => css`
     border: 0.1rem solid ${theme.background.primary};
     color: ${theme.colors.primary};
-    border-radius: ${theme.border.rounded};
+    border-radius: 10rem;
   `,
-  orange: (theme: DefaultTheme) => css`
+  orange: () => css`
     background: #f4da85;
     color: #50605c;
-    border-radius: ${theme.border.rounded};
+    border-radius: 10rem;
   `,
   red: (theme: DefaultTheme) => css`
     background: #ee4c4c;
     color: ${theme.colors.white};
-    border-radius: ${theme.border.rounded};
+    border-radius: 10rem;
   `
 };
 
