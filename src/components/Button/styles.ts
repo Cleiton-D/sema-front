@@ -44,15 +44,15 @@ const wrapperModifiers = {
     border-radius: ${theme.border.rounded};
   `,
   outlined: (theme: DefaultTheme) => css`
-    background: ${theme.background.transparent};
+    background: ${theme.colors.white};
     box-sizing: border-box;
-    border: 0.2rem solid ${theme.background.primary};
+    border: 0.2rem solid ${theme.colors.primary};
     color: ${theme.colors.primary};
     font-weight: ${theme.font.bold};
     border-radius: ${theme.border.rounded};
 
     &:hover {
-      background: ${theme.background.transparent};
+      background: ${theme.colors.white};
     }
   `
 };
@@ -62,7 +62,7 @@ export const Wrapper = styled.button<WrapperProps>`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: ${theme.background.primary};
+    background: ${theme.colors.primary};
     color: ${theme.colors.white};
     border: 0;
     outline: none;
@@ -74,7 +74,7 @@ export const Wrapper = styled.button<WrapperProps>`
     transition: background 0.2s ease;
 
     &:hover {
-      background: ${darken(0.1, theme.background.primary)};
+      background: ${darken(0.1, theme.colors.primary)};
     }
 
     ${!!styleType && wrapperModifiers[styleType](theme)}

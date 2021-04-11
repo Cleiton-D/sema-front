@@ -32,12 +32,6 @@ export default {
       huge: '5.2rem'
     }
   },
-  background: {
-    primary: '#0393BE',
-    black: '#000000',
-    white: '#ffffff',
-    transparent: 'transparent'
-  },
   colors: {
     primary: '#0393BE',
     secondary: '#0DBF87',
