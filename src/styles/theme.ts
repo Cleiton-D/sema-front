@@ -4,14 +4,7 @@ export default {
     gutter: '3.2rem'
   },
   border: {
-    radius: '0.4rem',
-    rounded: '10rem'
-  },
-  shadow: {
-    none: '0',
-    small: '0 0.5rem 1rem rgba(0, 0, 0, 0.15)',
-    medium: '0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)',
-    large: '0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.1)'
+    radius: '0.4rem'
   },
   font: {
     poppins:
@@ -36,6 +29,7 @@ export default {
     primary: '#0393BE',
     black: '#000000',
     white: '#ffffff',
+    secondary: '#0DBF87',
     transparent: 'transparent'
   },
   colors: {
