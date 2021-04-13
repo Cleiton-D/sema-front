@@ -6,12 +6,12 @@ export type WrapperProps = Pick<BadgeProps, 'styledType'>;
 
 const wrapperModifiers = {
   green: (theme: DefaultTheme) => css`
-    border: 0.1rem solid ${theme.background.secondary};
+    border: 0.1rem solid ${theme.colors.secondary};
     color: ${theme.colors.secondary};
     border-radius: 10rem;
   `,
   blue: (theme: DefaultTheme) => css`
-    border: 0.1rem solid ${theme.background.primary};
+    border: 0.1rem solid ${theme.colors.primary};
     color: ${theme.colors.primary};
     border-radius: 10rem;
   `,
