@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { TableColumnProps } from 'components/TableColumn';
 import { useTable } from 'components/Table';
@@ -8,17 +8,29 @@ import * as S from './styles';
 export type TableCellProps = {
   value: any;
   columnProps: TableColumnProps;
+  renderInternalContent: (content: React.ReactNode) => void;
 };
 
-const TableCell = ({ value, columnProps }: TableCellProps) => {
-  const { fixed, contentAlign, render } = columnProps;
+const TableCell = ({
+  value,
+  columnProps,
+  renderInternalContent
+}: TableCellProps) => {
+  const { fixed, contentAlign, render, children } = columnProps;
 
   const [position, setPosition] = useState(0);
+  const [showing, setShowing] = useState(false);
+
   const { eventEmitter, minimal } = useTable();
 
   const onChangePosition = useCallback((position) => {
     setPosition(position);
   }, []);
+
+  const handleRenderInternalContent = useCallback(() => {
+    renderInternalContent(showing ? null : children);
+    setShowing(!showing);
+  }, [renderInternalContent, children, showing]);
 
   useEffect(() => {
     if (!fixed) return;
@@ -31,6 +43,11 @@ const TableCell = ({ value, columnProps }: TableCellProps) => {
     };
   }, [columnProps, onChangePosition, eventEmitter, fixed]);
 
+  const renderedContent = useMemo(() => (render ? render(value) : value), [
+    value,
+    render
+  ]);
+
   return (
     <S.Wrapper
       fixed={fixed}
@@ -38,7 +55,13 @@ const TableCell = ({ value, columnProps }: TableCellProps) => {
       minimal={minimal}
       contentAlign={contentAlign}
     >
-      {render ? render(value) : value}
+      {children ? (
+        <S.ExpandButton onClick={handleRenderInternalContent}>
+          {renderedContent}
+        </S.ExpandButton>
+      ) : (
+        renderedContent
+      )}
     </S.Wrapper>
   );
 };

@@ -129,3 +129,47 @@ export const Minimal: Story = () => {
     </Table>
   );
 };
+
+export const WithChildren: Story = () => {
+  return (
+    <Table<TableItemType> items={data} keyExtractor={(value) => value.id}>
+      <TableColumn
+        tableKey="nome"
+        label="Nome do cliente"
+        fixed
+        render={(value) => <div style={{ color: 'red' }}>{value}</div>}
+      >
+        <Table<MinimalTableData>
+          items={minimalData}
+          keyExtractor={(value) => value.id}
+          minimal
+        >
+          <TableColumn tableKey="subject" label="Matéria" />
+          <TableColumn
+            tableKey="first"
+            label="1º Bimestre"
+            contentAlign="center"
+          />
+          <TableColumn
+            tableKey="second"
+            label="2º Bimestre"
+            contentAlign="center"
+          />
+          <TableColumn
+            tableKey="recover"
+            label="Recuperação"
+            contentAlign="center"
+          />
+          <TableColumn tableKey="exame" label="Exame" contentAlign="center" />
+          <TableColumn
+            tableKey="final"
+            label="Média final"
+            contentAlign="center"
+          />
+        </Table>
+      </TableColumn>
+      <TableColumn tableKey="sobrenome" label="sobrenome do cliente" fixed />
+      <TableColumn tableKey="idade" label="idade do cliente" />
+    </Table>
+  );
+};

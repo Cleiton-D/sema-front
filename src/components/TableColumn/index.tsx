@@ -12,6 +12,7 @@ export type TableColumnProps = {
   fixed?: boolean;
   contentAlign?: 'left' | 'center' | 'right';
   render?: (value: any) => React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const TableColumn = ({

@@ -30,3 +30,10 @@ export const Wrapper = styled.td<WrapperProps>`
     ${!!minimal && wrapperModifiers.minimal(theme)}
   `}
 `;
+
+export const ExpandButton = styled.button`
+  background: none;
+  border: none;
+  outline: 0;
+  font: inherit;
+`;
