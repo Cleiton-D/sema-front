@@ -35,5 +35,5 @@ export const withIcon: Story<ButtonProps> = (args) => <Button {...args} />;
 withIcon.args = {
   size: 'large',
   children: 'Adicionar Pessoa',
-  icon: PlusCircle
+  icon: <PlusCircle />
 };
