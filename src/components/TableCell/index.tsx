@@ -54,10 +54,12 @@ const TableCell = ({
       position={position}
       minimal={minimal}
       contentAlign={contentAlign}
+      showingDetail={showing}
     >
       {children ? (
         <S.ExpandButton onClick={handleRenderInternalContent}>
           {renderedContent}
+          <S.ExpandIcon size={20} active={showing} />
         </S.ExpandButton>
       ) : (
         renderedContent

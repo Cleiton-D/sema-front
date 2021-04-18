@@ -133,12 +133,7 @@ export const Minimal: Story = () => {
 export const WithChildren: Story = () => {
   return (
     <Table<TableItemType> items={data} keyExtractor={(value) => value.id}>
-      <TableColumn
-        tableKey="nome"
-        label="Nome do cliente"
-        fixed
-        render={(value) => <div style={{ color: 'red' }}>{value}</div>}
-      >
+      <TableColumn tableKey="nome" label="Nome do cliente" fixed>
         <Table<MinimalTableData>
           items={minimalData}
           keyExtractor={(value) => value.id}
