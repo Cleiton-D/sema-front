@@ -49,6 +49,22 @@ const GlobalStyles: GlobalStyleComponent<
   @font-face {
     font-family: 'Poppins';
     font-style: normal;
+    font-weight: 500;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-500.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: italic;
+    font-weight: 500;
+    src: local(''),
+        url('/fonts/poppins/poppins-v15-latin-500italic.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
     font-weight: 600;
     src: local(''),
         url('/fonts/poppins/poppins-v15-latin-600.woff2') format('woff2');
