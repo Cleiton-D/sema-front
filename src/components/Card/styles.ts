@@ -1,78 +1,81 @@
 import styled, { css, DefaultTheme } from 'styled-components';
+import { ArrowRight } from '@styled-icons/feather';
 
-import { CardProps } from '.';
+export const Wrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    height: 13.3rem;
+    width: 21rem;
+    padding: ${theme.spacings.xxsmall};
+    background: ${theme.colors.white};
+    box-shadow: 0px 0px 4px rgba(51, 73, 77, 0.3);
+    border-radius: ${theme.border.radius};
+    overflow: hidden;
+  `}
+`;
 
-export type WrapperProps = {
+export type ContentProps = {
   hasIcon: boolean;
-} & Pick<CardProps, 'fullWidth'>;
+};
 
-const wrapperModifiers = {
-  fullWidth: () => css`
-    width: 100%;
-  `,
+const contentModifiers = {
   withIcon: (theme: DefaultTheme) => css`
-    svg {
-      width: 1.2rem;
+    > svg {
+      width: 4rem;
+      stroke-width: 2;
       color: ${theme.colors.primary};
-      & + span {
-        margin-left: ${theme.spacings.xxsmall};
-      }
     }
   `
 };
+
+export const Content = styled.div<ContentProps>`
+  ${({ theme, hasIcon }) => css`
+    padding: 0 ${theme.spacings.xxsmall};
+    border-bottom: 0.1rem solid ${theme.colors.lightSilver};
+    overflow: hidden;
+
+    ${!!hasIcon && contentModifiers.withIcon(theme)};
+  `}
+`;
+
 export const Text = styled.h1`
   ${({ theme }) => css`
     font-family: ${theme.font.inter};
     font-weight: ${theme.font.bold};
-    font-size: ${theme.font.sizes.xlarge};
+    font-size: ${theme.font.sizes.xxlarge};
     color: ${theme.colors.primary};
-    text-align: left;
-    padding-left: 0.3rem;
   `}
 `;
 
-export const Description = styled.h4`
+export const Description = styled.p`
   ${({ theme }) => css`
-    font-family: ${theme.font.inter};
-    font-weight: ${theme.font.bold};
-    font-size: ${theme.font.sizes.small};
+    font-family: ${theme.font.poppins};
+    font-weight: ${theme.font.medium};
+    font-size: ${theme.font.sizes.xlarge};
     color: ${theme.colors.silver};
-    padding-left: 0.3rem;
-    padding-bottom: 0.3rem;
-  `}
-`;
-
-export const Divider = styled.div`
-  ${({ theme }) => css`
-    border: 0.00675rem solid ${theme.colors.lightSilver};
+    margin-bottom: ${theme.spacings.xxsmall};
   `}
 `;
 
 export const Link = styled.a`
   ${({ theme }) => css`
-    font-family: ${theme.font.inter};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    font-family: ${theme.font.poppins};
     font-style: ${theme.font.normal};
     font-weight: ${theme.font.normal};
-    font-size: ${theme.font.sizes.xsmall};
+    font-size: ${theme.font.sizes.large};
     color: ${theme.colors.primary};
     text-decoration: none;
-    padding: 0.5rem;
-    text-align: center;
   `}
 `;
 
-export const Card = styled.div<WrapperProps>`
-  ${({ theme, fullWidth, hasIcon }) => css`
-    display: flex;
-    flex-direction: column;
-    height: 8.3125rem;
-    width: 13.125rem;
-    padding: 1rem 1rem;
-    background: ${theme.colors.white};
-    box-shadow: 0px 0px 4px rgba(51, 73, 77, 0.3);
-    border-radius: ${theme.border.radius};
-
-    ${!!fullWidth && wrapperModifiers.fullWidth()};
-    ${!!hasIcon && wrapperModifiers.withIcon(theme)};
+export const ArrowIcon = styled(ArrowRight)`
+  ${({ theme }) => css`
+    stroke-width: 2;
+    width: ${theme.spacings.xsmall};
   `}
 `;

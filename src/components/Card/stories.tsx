@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react';
-import { ArrowRight, UserPlus } from '@styled-icons/feather';
-import { UserLeft } from 'assets/images/user-left.svg';
+import { UserPlus } from '@styled-icons/feather';
+import UserLeft from 'assets/images/userLeft.svg';
 
 import Card, { CardProps } from '.';
 
@@ -11,13 +11,7 @@ export default {
     children: {
       type: 'string'
     },
-    description: {
-      type: 'string'
-    },
     icon: {
-      type: ''
-    },
-    arrowIcon: {
       type: ''
     }
   }
@@ -27,19 +21,22 @@ export const Default: Story<CardProps> = (args) => <Card {...args} />;
 
 Default.args = {
   children: '150',
-  description: 'Alunos Ativos'
+  description: 'Alunos ativos',
+  link: '/'
 };
 
 export const Enrollments: Story<CardProps> = (args) => <Card {...args} />;
 
 Enrollments.args = {
   description: 'Matrículas',
-  icon: <UserPlus />
+  icon: <UserPlus />,
+  link: '/'
 };
 
 export const Transfers: Story<CardProps> = (args) => <Card {...args} />;
 
 Transfers.args = {
   description: 'Transferência',
-  icon: <UserLeft />
+  icon: <UserLeft />,
+  link: '/'
 };
