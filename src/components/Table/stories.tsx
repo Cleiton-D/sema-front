@@ -1,13 +1,14 @@
 import { Story, Meta } from '@storybook/react';
 
 import TableColumn from 'components/TableColumn';
-import { useRef, useState } from 'react';
-import Table from '.';
+import Table, { TableProps } from '.';
 
 export default {
   title: 'Table',
   component: Table,
-  argTypes: {}
+  argTypes: {
+    items: { type: '' }
+  }
 } as Meta;
 
 type TableItemType = {
@@ -32,9 +33,9 @@ const data = [
   }
 ];
 
-export const Default: Story = () => {
+export const Default: Story<TableProps<TableItemType>> = (args) => {
   return (
-    <Table<TableItemType> items={data} keyExtractor={(value) => value.id}>
+    <Table<TableItemType> {...args} keyExtractor={(value) => value.id}>
       <TableColumn
         tableKey="nome"
         label="Nome do cliente"
@@ -45,6 +46,10 @@ export const Default: Story = () => {
       <TableColumn tableKey="idade" label="idade do cliente" />
     </Table>
   );
+};
+
+Default.args = {
+  items: data
 };
 
 type MinimalTableData = {
@@ -105,13 +110,9 @@ const minimalData: MinimalTableData[] = [
   }
 ];
 
-export const Minimal: Story = () => {
+export const Minimal: Story<TableProps<MinimalTableData>> = (args) => {
   return (
-    <Table<MinimalTableData>
-      items={minimalData}
-      keyExtractor={(value) => value.id}
-      minimal
-    >
+    <Table<MinimalTableData> {...args} keyExtractor={(value) => value.id}>
       <TableColumn tableKey="subject" label="Matéria" />
       <TableColumn tableKey="first" label="1º Bimestre" contentAlign="center" />
       <TableColumn
@@ -130,9 +131,14 @@ export const Minimal: Story = () => {
   );
 };
 
-export const WithChildren: Story = () => {
+Minimal.args = {
+  items: minimalData,
+  minimal: true
+};
+
+export const WithChildren: Story<TableProps<TableItemType>> = (args) => {
   return (
-    <Table<TableItemType> items={data} keyExtractor={(value) => value.id}>
+    <Table<TableItemType> {...args} keyExtractor={(value) => value.id}>
       <TableColumn tableKey="nome" label="Nome do cliente" fixed>
         <Table<MinimalTableData>
           items={minimalData}
@@ -167,4 +173,8 @@ export const WithChildren: Story = () => {
       <TableColumn tableKey="idade" label="idade do cliente" />
     </Table>
   );
+};
+
+WithChildren.args = {
+  items: data
 };

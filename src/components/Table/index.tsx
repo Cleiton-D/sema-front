@@ -14,7 +14,7 @@ import TableRow from 'components/TableRow';
 
 import * as S from './styles';
 
-type TableProps<T> = {
+export type TableProps<T> = {
   minimal?: boolean;
   items: T[];
   keyExtractor: (value: T) => string;

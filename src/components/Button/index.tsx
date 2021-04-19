@@ -1,5 +1,4 @@
 import { forwardRef, AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
-import { StyledIconProps } from '@styled-icons/styled-icon';
 
 import * as S from './styles';
 
@@ -10,7 +9,7 @@ type ButtonTypes =
 export type ButtonProps = {
   size?: 'small' | 'medium' | 'large';
   fullWidth?: boolean;
-  icon?: React.ComponentType<StyledIconProps>;
+  icon?: React.ReactNode;
   as?: React.ElementType;
   styleType: 'normal' | 'rounded' | 'outlined';
 } & ButtonTypes;
@@ -18,7 +17,7 @@ export type ButtonProps = {
 const Button: React.ForwardRefRenderFunction<S.WrapperProps, ButtonProps> = (
   {
     children,
-    icon: Icon,
+    icon,
     size = 'large',
     fullWidth = false,
     styleType = 'normal',
@@ -29,12 +28,12 @@ const Button: React.ForwardRefRenderFunction<S.WrapperProps, ButtonProps> = (
   <S.Wrapper
     size={size}
     fullWidth={fullWidth}
-    hasIcon={!!Icon}
+    hasIcon={!!icon}
     ref={ref}
     styleType={styleType}
     {...props}
   >
-    {!!Icon && <Icon data-testid="icon" />}
+    {!!icon && icon}
     {!!children && <span>{children}</span>}
   </S.Wrapper>
 );
