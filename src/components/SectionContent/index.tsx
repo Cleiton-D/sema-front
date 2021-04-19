@@ -1,11 +1,12 @@
-import * as S from './styles';
+import styled, { css } from 'styled-components';
 
-export type SectionContentProps = {
-  children: React.ReactNode;
-};
-
-const SectionContent = ({ children }: SectionContentProps) => {
-  return <S.Wrapper>{children}</S.Wrapper>;
-};
+export const SectionContent = styled.section`
+  ${({ theme }) => css`
+    max-width: 100%;
+    background: ${theme.colors.white};
+    padding: 0.5rem;
+    border-radius: 1rem;
+  `}
+`;
 
 export default SectionContent;
