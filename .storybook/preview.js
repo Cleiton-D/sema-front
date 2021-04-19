@@ -10,6 +10,10 @@ export const parameters = {
       {
         name: 'sema-light',
         value: theme.colors.mainBg
+      },
+      {
+        name: 'sema-white',
+        value: theme.colors.white
       }
     ]
   }
