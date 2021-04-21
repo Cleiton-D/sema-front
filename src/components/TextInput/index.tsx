@@ -21,6 +21,7 @@ export type TextInputProps = Omit<InputHtmlProps, 'value'> & {
   name: string;
   label: string;
   as?: InputAs;
+  type?: string;
   onChangeValue?: (value: string) => void;
 };
 
