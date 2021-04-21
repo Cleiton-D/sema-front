@@ -120,7 +120,7 @@ const GlobalStyles: GlobalStyleComponent<
   body {
     ${({ theme }) => css`
       font-family: ${theme.font.poppins};
-      font-size: 2rem;
+      font-size: 1.6rem;
       height: 100vh;
       width: 100vw;
     `}
