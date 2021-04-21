@@ -1,5 +1,9 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import NextNprogress from 'nextjs-progressbar';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Provider as AuthProvider } from 'next-auth/client';
 import { ThemeProvider } from 'styled-components';
@@ -15,7 +19,14 @@ const App = ({ Component, pageProps }: AppProps) => {
           <title>SEMA</title>
         </Head>
         <GlobalStyles />
+        <NextNprogress
+          color={theme.colors.primary}
+          startPosition={0.3}
+          stopDelayMs={200}
+          height={5}
+        />
         <Component {...pageProps} />
+        <ToastContainer />
       </ThemeProvider>
     </AuthProvider>
   );
