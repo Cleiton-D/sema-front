@@ -19,7 +19,7 @@ const wrapperModifiers = {
   `,
   large: (theme: DefaultTheme) => css`
     height: 5rem;
-    font-size: ${theme.font.sizes.medium};
+    font-size: ${theme.font.sizes.large};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,
   fullWidth: () => css`
@@ -73,10 +73,11 @@ export const Wrapper = styled.button<WrapperProps>`
     text-decoration: none;
     cursor: pointer;
     font-weight: ${theme.font.bold};
-    transition: background 0.2s ease;
+    transition: background 0.3s ease;
+    width: 100%;
 
     &:hover {
-      background: ${darken(0.1, theme.colors.primary)};
+      background: ${darken(0.05, theme.colors.primary)};
     }
 
     ${!!styleType && wrapperModifiers[styleType](theme)}
