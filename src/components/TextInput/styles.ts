@@ -41,7 +41,7 @@ const labelModifiers = {
     transform: translateY(-50%);
   `,
   textarea: () => css`
-    top: 0;
+    top: 0.5rem;
     transform: translateY(50%);
   `
 };

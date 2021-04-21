@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import TextInput, { TextInputProps } from '.';
 
 export default {
-  title: 'TextInput',
+  title: 'Form/TextInput',
   component: TextInput,
   parameters: {
     layout: 'fullscreen',
@@ -25,14 +25,12 @@ export default {
 } as Meta;
 
 export const Default: Story<TextInputProps> = (args) => (
-  <>
-    <Form
-      style={{ padding: 10, width: 400, margin: '0 auto' }}
-      onSubmit={(values) => console.log(values)}
-    >
-      <TextInput {...args} />
-    </Form>
-  </>
+  <Form
+    style={{ padding: 10, width: 400, margin: '0 auto' }}
+    onSubmit={(values) => console.log(values)}
+  >
+    <TextInput {...args} />
+  </Form>
 );
 
 export const TextArea: Story<TextInputProps> = (args) => (
