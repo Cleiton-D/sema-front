@@ -12,7 +12,7 @@ const options = {
       name: 'sign-in',
       credentials: {},
       async authorize({ email, password }) {
-        const response = await axios.post('http://localhost:3333/sessions', {
+        const response = await axios.post(`${process.env.API_URL}/sessions`, {
           login: email,
           password
         });
