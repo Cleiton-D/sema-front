@@ -2,7 +2,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 
 export const Wrapper = styled.div`
   position: relative;
-  height: 4rem;
+  height: 5rem;
   width: 100%;
 `;
 

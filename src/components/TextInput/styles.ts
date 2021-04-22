@@ -7,7 +7,7 @@ type WrapperProps = {
 
 const wrapperModifiers = {
   input: () => css`
-    height: 4rem;
+    height: 5rem;
   `,
   textarea: () => css`
     max-height: 40rem;
