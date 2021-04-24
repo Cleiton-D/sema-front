@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { signIn } from 'next-auth/client';
+import { getSession, signIn } from 'next-auth/client';
 import { ValidationError } from 'yup';
 import { FormHandles } from '@unform/core';
 import { toast } from 'react-toastify';
@@ -34,16 +34,27 @@ const SignIn = () => {
         abortEarly: false
       });
 
+      const callbackUrl = `${window.location.origin}${
+        query?.callbackUrl || ''
+      }`;
       const result = await signIn('credentials', {
         ...values,
         redirect: false,
-        callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
+        callbackUrl
       });
 
-      if (result.error) {
+      if (result?.error) {
         toast.error('Usuário ou senha inválidos!', {
           position: toast.POSITION.TOP_RIGHT
         });
+      }
+
+      const session = await getSession({});
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (session?.user?.changePassword) {
+        return push(`/change-password?callbackUrl=${callbackUrl}`);
       }
 
       if (result?.url) {
@@ -60,6 +71,10 @@ const SignIn = () => {
         });
 
         formRef.current?.setErrors(validationError);
+      } else {
+        toast.error('Não foi possível efetuar o login!', {
+          position: toast.POSITION.TOP_RIGHT
+        });
       }
     }
 
