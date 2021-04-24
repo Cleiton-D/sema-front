@@ -4,6 +4,9 @@ import Providers from 'next-auth/providers';
 import axios from 'axios';
 
 const options = {
+  jwt: {
+    signingKey: process.env.JWT_SIGNING_PRIVATE_KEY
+  },
   pages: {
     signIn: '/sign-in'
   },
@@ -11,7 +14,7 @@ const options = {
     Providers.Credentials({
       name: 'sign-in',
       credentials: {},
-      async authorize({ email, password }) {
+      async authorize({ email, password }: Record<string, string>) {
         const response = await axios.post(`${process.env.API_URL}/sessions`, {
           login: email,
           password
@@ -19,7 +22,10 @@ const options = {
 
         const { data } = response;
         if (data.user) {
-          return { ...data.user, jwt: data.token };
+          return {
+            ...data.user,
+            jwt: data.token
+          };
         }
 
         return null;
@@ -30,6 +36,10 @@ const options = {
     session: async (session: any, user: any) => {
       session.jwt = user.jwt;
       session.id = user.id;
+      session.user = {
+        ...session.user,
+        changePassword: user.changePassword
+      };
 
       return Promise.resolve(session);
     },
@@ -38,6 +48,7 @@ const options = {
         token.id = user.id;
         token.email = user.login;
         token.jwt = user.jwt;
+        token.changePassword = user.change_password;
       }
 
       return Promise.resolve(token);
