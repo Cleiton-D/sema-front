@@ -24,6 +24,7 @@ const options = {
         if (data.user) {
           return {
             ...data.user,
+            name: data.user.username,
             jwt: data.token
           };
         }
