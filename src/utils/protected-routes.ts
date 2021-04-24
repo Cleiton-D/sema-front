@@ -1,7 +1,10 @@
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
 
-async function protectedRoutes(context: GetServerSidePropsContext) {
+async function protectedRoutes(
+  context: GetServerSidePropsContext,
+  validateChangePass = true
+) {
   const session = await getSession(context);
 
   if (!session) {
@@ -13,7 +16,7 @@ async function protectedRoutes(context: GetServerSidePropsContext) {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  if (session!.user?.changePassword) {
+  if (validateChangePass && session!.user?.changePassword) {
     context.res.writeHead(302, {
       Location: `/change-password?callbackUrl=${context.resolvedUrl}`
     });
