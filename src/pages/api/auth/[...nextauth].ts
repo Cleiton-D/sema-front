@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import axios from 'axios';
+
+import { initializeApi } from 'services/api';
 
 const options = {
   jwt: {
@@ -15,7 +16,9 @@ const options = {
       name: 'sign-in',
       credentials: {},
       async authorize({ email, password }: Record<string, string>) {
-        const response = await axios.post(`${process.env.API_URL}/sessions`, {
+        const api = initializeApi();
+
+        const response = await api.post(`/sessions`, {
           login: email,
           password
         });
@@ -35,11 +38,17 @@ const options = {
   ],
   callbacks: {
     session: async (session: any, user: any) => {
+      const api = initializeApi();
+
+      const { data } = await api.get('/users/me', {
+        headers: { authorization: user.jwt ? `Bearer ${user.jwt}` : '' }
+      });
+
       session.jwt = user.jwt;
       session.id = user.id;
       session.user = {
         ...session.user,
-        changePassword: user.changePassword
+        changePassword: data.change_password
       };
 
       return Promise.resolve(session);
@@ -49,7 +58,6 @@ const options = {
         token.id = user.id;
         token.email = user.login;
         token.jwt = user.jwt;
-        token.changePassword = user.change_password;
       }
 
       return Promise.resolve(token);
