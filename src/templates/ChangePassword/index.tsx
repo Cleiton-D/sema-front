@@ -22,15 +22,15 @@ const ChangePassword = () => {
               objectFit="cover"
               quality={80}
               sizes="80px"
-              alt={session?.user?.name || undefined}
+              alt={session?.user.name || undefined}
             />
           </S.UserImageContainer>
-          <span>{session?.user?.name}</span>
+          <span>{session?.user.name}</span>
         </S.UserContent>
 
         <span>
-          Olá {session?.user?.name}, para acessar o portal você precisa criar
-          uma nova senha!
+          Olá {session?.user.name}, para acessar o portal você precisa criar uma
+          nova senha!
         </span>
 
         <S.Form onSubmit={(values) => console.log(values)}>

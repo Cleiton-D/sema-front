@@ -12,11 +12,7 @@ async function protectedRoutes(
       Location: `/sign-in?callbackUrl=${context.resolvedUrl}`
     });
     context.res.end();
-  }
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (validateChangePass && session!.user?.changePassword) {
+  } else if (validateChangePass && session.user.changePassword) {
     context.res.writeHead(302, {
       Location: `/change-password?callbackUrl=${context.resolvedUrl}`
     });
