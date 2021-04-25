@@ -22,6 +22,7 @@ export const Content = styled(SectionContent)`
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0rem 0rem 0.5rem ${theme.colors.lightGray};
     padding-top: ${theme.spacings.small};
   `}
 `;
