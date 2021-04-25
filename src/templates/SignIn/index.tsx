@@ -51,9 +51,7 @@ const SignIn = () => {
 
       const session = await getSession({});
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (session?.user?.changePassword) {
+      if (session?.user.changePassword) {
         return push(`/change-password?callbackUrl=${callbackUrl}`);
       }
 
