@@ -19,12 +19,24 @@ export const Wrapper = styled.main`
 
 export const Content = styled(SectionContent)`
   ${({ theme }) => css`
+    @keyframes show-in {
+      from {
+        box-shadow: none;
+        transform: scale(0.99);
+      }
+      to {
+        box-shadow: 0rem 0rem 1rem ${theme.colors.lightGray};
+        transform: scale(1);
+      }
+    }
+
     max-width: 55rem !important;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    box-shadow: 0rem 0rem 1rem ${theme.colors.lightGray};
+    animation: 0.3s ease-out 0.05s show-in;
+    animation-fill-mode: forwards;
 
     padding: ${theme.spacings.small};
     padding-top: ${theme.spacings.xxsmall};
