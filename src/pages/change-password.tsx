@@ -10,7 +10,7 @@ export default function ChangePasswordPage() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context, false);
 
-  if (!session?.user.changePassword) {
+  if (session && !session.user.changePassword) {
     const location = context.query.callbackUrl || '/';
 
     context.res.writeHead(302, { Location: location });
