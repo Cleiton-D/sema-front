@@ -7,5 +7,7 @@ declare module 'next-auth' {
       email: string;
       changePassword: boolean;
     };
+    jwt: string;
+    id: string;
   }
 }
