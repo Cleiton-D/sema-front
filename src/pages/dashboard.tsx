@@ -1,19 +1,12 @@
 import { GetServerSidePropsContext } from 'next';
 import { signOut } from 'next-auth/client';
 
+import Dashboard from 'templates/Dashboard';
+
 import protectedRoutes from 'utils/protected-routes';
 
-export default function Dashboard() {
-  const handleSignout = () => {
-    signOut();
-  };
-
-  return (
-    <div>
-      <h1>Vc está logado</h1>
-      <button onClick={handleSignout}>Logout</button>
-    </div>
-  );
+export default function DashboardPage() {
+  return <Dashboard />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
