@@ -15,12 +15,12 @@ const wrapperModifiers = {
   medium: (theme: DefaultTheme) => css`
     height: 4rem;
     font-size: ${theme.font.sizes.small};
-    padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
+    padding: ${theme.spacings.xxsmall};
   `,
   large: (theme: DefaultTheme) => css`
     height: 5rem;
     font-size: ${theme.font.sizes.large};
-    padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
+    padding: ${theme.spacings.xxsmall};
   `,
   fullWidth: () => css`
     width: 100%;
