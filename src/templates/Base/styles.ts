@@ -15,6 +15,9 @@ export const Wrapper = styled.main`
 `;
 
 export const Content = styled.section`
-  grid-area: main-content;
-  overflow-y: auto;
+  ${({ theme }) => css`
+    grid-area: main-content;
+    padding: ${theme.spacings.small};
+    overflow-y: auto;
+  `}
 `;

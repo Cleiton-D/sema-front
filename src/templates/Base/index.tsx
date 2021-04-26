@@ -1,5 +1,6 @@
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
+import PageContainer from 'components/PageContainer';
 
 import * as S from './styles';
 
@@ -12,7 +13,9 @@ const Base = ({ children }: BaseProps) => {
     <S.Wrapper>
       <Header />
       <Sidebar />
-      <S.Content>{children}</S.Content>
+      <S.Content>
+        <PageContainer>{children}</PageContainer>
+      </S.Content>
     </S.Wrapper>
   );
 };
