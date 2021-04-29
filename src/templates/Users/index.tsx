@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { useSession } from 'next-auth/client';
 import { PlusCircle } from '@styled-icons/feather';
+import { useQuery } from 'react-query';
 
 import Base from 'templates/Base';
 
@@ -7,26 +9,35 @@ import Heading from 'components/Heading';
 import Button from 'components/Button';
 import Table from 'components/Table';
 import TableColumn from 'components/TableColumn';
+import AddUserModal, { ModalRef } from 'components/AddUserModal';
 
-import { User as UserType, FormattedUser } from 'models/User';
-
-import { useUsers } from './hooks/useUsers';
+import { FormattedUser } from 'models/User';
+import { listUsers } from 'requests/queries/users';
 
 import * as S from './styles';
 
-export type UsersProps = {
-  users: UserType[];
-};
-
-const Users = ({ users: ssrUsers }: UsersProps) => {
+const Users = () => {
   const [session] = useSession();
-  const { data } = useUsers({ initialData: ssrUsers, session });
+
+  const { data } = useQuery<FormattedUser[]>('get-users', () =>
+    listUsers(session)
+  );
+
+  const modalRef = useRef<ModalRef>(null);
+
+  const handleOpenModal = () => {
+    modalRef.current?.openModal();
+  };
 
   return (
     <Base>
       <Heading>Usuários</Heading>
       <S.AddButtonContainer>
-        <Button styleType="normal" icon={<PlusCircle />}>
+        <Button
+          styleType="normal"
+          icon={<PlusCircle />}
+          onClick={handleOpenModal}
+        >
           Adicionar Usuário
         </Button>
       </S.AddButtonContainer>
@@ -55,6 +66,7 @@ const Users = ({ users: ssrUsers }: UsersProps) => {
           <TableColumn label="Ações" tableKey="" contentAlign="center" />
         </Table>
       </S.TableSection>
+      <AddUserModal ref={modalRef} />
     </Base>
   );
 };
