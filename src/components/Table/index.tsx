@@ -4,7 +4,8 @@ import {
   useRef,
   createContext,
   useContext,
-  useCallback
+  useCallback,
+  memo
 } from 'react';
 import mitt, { Emitter } from 'mitt';
 import debounce from 'lodash.debounce';
@@ -29,7 +30,7 @@ type TableContextProps = {
 };
 const TableContext = createContext<TableContextProps>({} as TableContextProps);
 
-function Table<T extends Record<string, string>>({
+function Table<T extends Record<string, any>>({
   minimal = false,
   items,
   keyExtractor,
@@ -93,4 +94,4 @@ function Table<T extends Record<string, string>>({
 
 export const useTable = () => useContext(TableContext);
 
-export default Table;
+export default memo(Table) as typeof Table;
