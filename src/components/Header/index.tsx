@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import UserDropdown from 'components/UserDropdown';
 
 import * as S from './styles';
@@ -16,4 +18,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);
