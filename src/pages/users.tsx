@@ -1,22 +1,21 @@
 import { GetServerSidePropsContext } from 'next';
 
-import Users, { UsersProps } from 'templates/Users';
+import Users from 'templates/Users';
 
-import { User as UserType } from 'models/User';
-
-import { initializeApi } from 'services/api';
 import protectedRoutes from 'utils/protected-routes';
+import prefetchQuery from 'utils/prefetch-query';
+import { listUsers } from 'requests/queries/users';
 
-export default function UsersPage(props: UsersProps) {
-  return <Users {...props} />;
+export default function UsersPage() {
+  return <Users />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
-  const api = initializeApi(session);
 
-  const response = await api.get<UserType[]>('/users');
-  const users = response.data || [];
+  const dehydratedState = await prefetchQuery('get-users', () =>
+    listUsers(session)
+  );
 
-  return { props: { session, users } };
+  return { props: { session, dehydratedState } };
 }
