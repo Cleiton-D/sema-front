@@ -20,8 +20,8 @@ const UserDropdown = ({ username, image }: UserDropdownProps) => {
   };
 
   return (
-    <>
-      <S.Wrapper>
+    <S.Wrapper>
+      <S.Container>
         <S.Title onClick={toggleDropdown}>
           <S.UserContainer>
             <span>
@@ -45,9 +45,9 @@ const UserDropdown = ({ username, image }: UserDropdownProps) => {
             <S.ListItem onClick={handleSignout}>Sair</S.ListItem>
           </ul>
         </S.Content>
-      </S.Wrapper>
+      </S.Container>
       <S.Overlay isOpen={show} onClick={() => setShow(false)} />
-    </>
+    </S.Wrapper>
   );
 };
 

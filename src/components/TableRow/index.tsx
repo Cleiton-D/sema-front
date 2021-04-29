@@ -6,7 +6,7 @@ import TableCell from 'components/TableCell';
 import * as S from './styles';
 
 type TableRowProps = {
-  item: Record<string, string>;
+  item: Record<string, any>;
   columns:
     | React.ReactElement<TableColumnProps>
     | React.ReactElement<TableColumnProps>[];
@@ -21,7 +21,7 @@ const TableRow = ({ item, columns, rowKey }: TableRowProps): JSX.Element => {
 
   return (
     <>
-      <S.Wrapper key={rowKey}>
+      <S.Wrapper key={rowKey} disabledItem={item.disabled}>
         {Children.map(columns, ({ props: columnProps }) => (
           <TableCell
             key={`${rowKey}_${columnProps.tableKey}_${columnProps.label}`}

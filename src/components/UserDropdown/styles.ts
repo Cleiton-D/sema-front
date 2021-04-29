@@ -3,14 +3,19 @@ import { ChevronDown } from '@styled-icons/feather';
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    cursor: pointer;
-    position: relative;
-    padding: 2rem 0;
-    width: 100%;
-    min-width: 20rem;
-    background: #fdfdfd;
-    z-index: ${theme.layers.alwaysOnTop};
+    display: contents;
+    --z-idx: calc(${theme.layers.overlay} - 1);
   `}
+`;
+
+export const Container = styled.div`
+  cursor: pointer;
+  position: relative;
+  padding: 2rem 0;
+  width: 100%;
+  min-width: 20rem;
+  background: #fdfdfd;
+  z-index: var(--z-idx);
 `;
 
 export const Title = styled.div`
@@ -21,7 +26,6 @@ export const Title = styled.div`
     align-items: center;
     justify-content: flex-end;
     padding: 0 ${theme.spacings.xsmall};
-    z-index: ${theme.layers.alwaysOnTop};
   `}
 `;
 
@@ -72,7 +76,7 @@ type OverlayProps = {
   isOpen: boolean;
 };
 export const Overlay = styled.div<OverlayProps>`
-  ${({ theme, isOpen }) => css`
+  ${({ isOpen }) => css`
     visibility: hidden;
     opacity: 0;
     background: rgba(0, 0, 0, 0.1);
@@ -82,7 +86,7 @@ export const Overlay = styled.div<OverlayProps>`
     left: 0;
     right: 0;
     transition: all 0.2s ease-out;
-    z-index: ${theme.layers.overlay};
+    z-index: calc(var(--z-idx) - 1);
 
     ${isOpen &&
     css`

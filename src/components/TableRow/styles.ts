@@ -1,6 +1,16 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 
-export const Wrapper = styled.tr``;
+type WrapperProps = {
+  disabledItem: boolean;
+};
+
+export const Wrapper = styled.tr<WrapperProps>`
+  ${({ disabledItem }) =>
+    disabledItem &&
+    css`
+      opacity: 0.5;
+    `}
+`;
 
 const detailLineModifiers = {
   active: (theme: DefaultTheme) => css`
