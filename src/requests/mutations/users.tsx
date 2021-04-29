@@ -6,7 +6,6 @@ import { ModalRef } from 'components/Modal';
 
 import { initializeApi, useMutation } from 'services/api';
 
-import * as S from 'components/AddUserModal/styles';
 import ToastContent from 'components/ToastContent';
 
 export function useAddUserMutation(
