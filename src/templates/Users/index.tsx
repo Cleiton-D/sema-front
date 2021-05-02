@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useSession } from 'next-auth/client';
-import { PlusCircle } from '@styled-icons/feather';
+import { PlusCircle, X } from '@styled-icons/feather';
 import { useQuery } from 'react-query';
 
 import Base from 'templates/Base';
@@ -13,6 +13,7 @@ import AddUserModal, { ModalRef } from 'components/AddUserModal';
 
 import { FormattedUser } from 'models/User';
 import { listUsers } from 'requests/queries/users';
+import { useDeleteUserMutation } from 'requests/mutations/users';
 
 import * as S from './styles';
 
@@ -22,6 +23,8 @@ const Users = () => {
   const { data } = useQuery<FormattedUser[]>('get-users', () =>
     listUsers(session)
   );
+
+  const mutation = useDeleteUserMutation(session);
 
   const modalRef = useRef<ModalRef>(null);
 
@@ -63,7 +66,21 @@ const Users = () => {
             tableKey="formattedUpdatedAt"
             contentAlign="center"
           />
-          <TableColumn label="Ações" tableKey="" contentAlign="center" />
+          <TableColumn
+            label="Ações"
+            tableKey="id"
+            contentAlign="center"
+            actionColumn
+            render={(user) => (
+              <S.ActionButton
+                type="button"
+                title={`Remover ${user.username}`}
+                onClick={() => mutation.mutate(user)}
+              >
+                <X size={20} />
+              </S.ActionButton>
+            )}
+          />
         </Table>
       </S.TableSection>
       <AddUserModal ref={modalRef} />

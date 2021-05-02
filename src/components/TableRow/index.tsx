@@ -26,7 +26,8 @@ const TableRow = ({ item, columns, rowKey }: TableRowProps): JSX.Element => {
           <TableCell
             key={`${rowKey}_${columnProps.tableKey}_${columnProps.label}`}
             columnProps={columnProps}
-            value={item[columnProps.tableKey]}
+            item={item}
+            objectKey={columnProps.tableKey}
             renderInternalContent={setInternalContent}
           />
         ))}

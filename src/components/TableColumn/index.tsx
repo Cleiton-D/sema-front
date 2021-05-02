@@ -11,6 +11,7 @@ export type TableColumnProps = {
   label: string;
   fixed?: boolean;
   contentAlign?: 'left' | 'center' | 'right';
+  actionColumn?: boolean;
   render?: (value: any) => React.ReactNode;
   children?: React.ReactNode;
 };
