@@ -6,17 +6,19 @@ import { useTable } from 'components/Table';
 import * as S from './styles';
 
 export type TableCellProps = {
-  value: any;
+  item: Record<string, any>;
+  objectKey: string;
   columnProps: TableColumnProps;
   renderInternalContent: (content: React.ReactNode) => void;
 };
 
 const TableCell = ({
-  value,
+  item,
+  objectKey,
   columnProps,
   renderInternalContent
 }: TableCellProps) => {
-  const { fixed, contentAlign, render, children } = columnProps;
+  const { fixed, contentAlign, actionColumn, render, children } = columnProps;
 
   const [position, setPosition] = useState(0);
   const [showing, setShowing] = useState(false);
@@ -43,10 +45,15 @@ const TableCell = ({
     };
   }, [columnProps, onChangePosition, eventEmitter, fixed]);
 
-  const renderedContent = useMemo(() => (render ? render(value) : value), [
-    value,
-    render
-  ]);
+  // const renderedContent = useMemo(() => (render ? render(value) : value), [
+  //   value,
+  //   render
+  // ]);
+  const renderedContent = useMemo(() => {
+    if (!render) return item[objectKey];
+
+    return actionColumn ? render(item) : render(item[objectKey]);
+  }, [item, objectKey, actionColumn, render]);
 
   return (
     <S.Wrapper
