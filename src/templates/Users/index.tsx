@@ -27,7 +27,6 @@ const Users = () => {
   const mutation = useDeleteUserMutation(session);
 
   const modalRef = useRef<ModalRef>(null);
-
   const handleOpenModal = () => {
     modalRef.current?.openModal();
   };

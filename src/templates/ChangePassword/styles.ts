@@ -38,7 +38,7 @@ export const Content = styled(SectionContent)`
     animation: 0.3s ease-out 0.05s show-in;
     animation-fill-mode: forwards;
 
-    padding: ${theme.spacings.small};
+    padding: ${theme.spacings.small} !important;
     padding-top: ${theme.spacings.xxsmall};
 
     ${HeadingStyles.Wrapper} {
