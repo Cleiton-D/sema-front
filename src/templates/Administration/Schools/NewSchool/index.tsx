@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
+import { useResetAtom } from 'jotai/utils';
 
 import Base from 'templates/Base';
 
@@ -26,12 +27,15 @@ const contactsForm = <ContactsForm jotaiState={schoolContactsData} />;
 const NewSchool = () => {
   const [session] = useSession();
   const mutation = useAddSchoolMutation(session);
+  const resetForm = useResetAtom(createSchoolData);
 
   const { push } = useRouter();
 
-  const handleFinish = useAtomCallback(async (get, set) => {
+  const handleFinish = useAtomCallback(async (get) => {
     const finalState = get(createSchoolData);
     await mutation.mutateAsync(finalState);
+    resetForm();
+
     push('/administration/schools');
   }, []);
 
