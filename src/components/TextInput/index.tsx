@@ -60,6 +60,7 @@ const TextInput: React.ForwardRefRenderFunction<
           defaultValue={defaultValue}
           as={as}
           ref={mergeRefs([fieldRef, ref])}
+          name={fieldName}
           {...rest}
         />
       </S.Label>

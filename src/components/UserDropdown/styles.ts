@@ -11,11 +11,13 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   cursor: pointer;
   position: relative;
-  padding: 2rem 0;
+  height: 100%;
   width: 100%;
   min-width: 20rem;
   background: #fdfdfd;
   z-index: var(--z-idx);
+  display: flex;
+  align-items: center;
 `;
 
 export const Title = styled.div`
@@ -101,7 +103,7 @@ export const UserContainer = styled.div`
     display: flex;
     align-items: center;
     font-family: ${theme.font.inter};
-    font-size: ${theme.font.sizes.large};
+    font-size: ${theme.font.sizes.medium};
     font-weight: ${theme.font.normal};
     color: ${theme.colors.lightSilver};
   `}

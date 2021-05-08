@@ -14,7 +14,7 @@ const Header = () => {
         <span>Perfil:</span>
         <p>Professor - Escola Municipal Cecília Meireles</p>
       </S.ProfileContainer>
-      <div>
+      <div style={{ height: '100%' }}>
         <UserDropdown
           username={session?.user.name || ''}
           image="/img/fry.jpg"
