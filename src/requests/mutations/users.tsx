@@ -54,8 +54,8 @@ export function useDeleteUserMutation(session?: Session | null) {
 
   return useMutation('delete-user', deleteUser, {
     linkedQueries: {
-      'get-users': (old, deletedUser) =>
-        old.map((user: FormattedUser) =>
+      'get-users': (old: FormattedUser[], deletedUser: FormattedUser) =>
+        old.map((user) =>
           user.id === deletedUser.id ? { ...user, disabled: true } : user
         )
     },

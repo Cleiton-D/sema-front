@@ -15,7 +15,17 @@ import GlobalStyles from 'styles/global';
 import theme from 'styles/theme';
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const queryClient = useMemo(() => new QueryClient(), []);
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 10000
+          }
+        }
+      }),
+    []
+  );
 
   return (
     <AuthProvider session={pageProps.session}>
