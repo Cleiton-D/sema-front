@@ -16,7 +16,7 @@ export const ProfileContainer = styled.div`
   ${({ theme }) => css`
     display: flex;
     font-family: ${theme.font.inter};
-    font-size: ${theme.font.sizes.large};
+    font-size: ${theme.font.sizes.medium};
 
     > span {
       font-weight: ${theme.font.normal};
