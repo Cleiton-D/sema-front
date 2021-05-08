@@ -9,7 +9,7 @@ import Table from 'components/Table';
 import TableColumn from 'components/TableColumn';
 import Button from 'components/Button';
 
-import { School } from 'models/School';
+import { SchoolWithEnrollCount } from 'models/School';
 import { useListSchools } from 'requests/queries/schools';
 
 import * as S from './styles';
@@ -40,9 +40,17 @@ const Schools = () => {
         <S.SectionTitle>
           <h4>Escolas</h4>
         </S.SectionTitle>
-        <Table<School> items={data || []} keyExtractor={(item) => item.id}>
+        <Table<SchoolWithEnrollCount>
+          items={data || []}
+          keyExtractor={(item) => item.id}
+        >
           <TableColumn label="Nome" tableKey="name" />
           <TableColumn label="INEP" tableKey="inep_code" />
+          <TableColumn
+            label="Matrículas ativas"
+            tableKey="enroll_count"
+            contentAlign="center"
+          />
         </Table>
       </S.TableSection>
     </Base>

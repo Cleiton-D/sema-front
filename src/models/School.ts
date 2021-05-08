@@ -3,3 +3,7 @@ export type School = {
   name: string;
   inep_code: string;
 };
+
+export type SchoolWithEnrollCount = School & {
+  enroll_count: string;
+};
