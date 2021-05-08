@@ -30,7 +30,7 @@ export const ActionButton = styled.button`
     background: ${theme.colors.white};
     align-items: center;
     justify-content: center;
-    border-radius: 100%;
+    border-radius: 50%;
     width: 3rem;
     border: 0;
     outline: 0;

@@ -7,7 +7,7 @@ export const Wrapper = styled.main`
       'sidebar header'
       'sidebar main-content';
     grid-template-columns: 29rem 1fr;
-    grid-template-rows: 10rem 1fr;
+    grid-template-rows: 8rem 1fr;
     width: 100vw;
     height: 100vh;
     background: ${theme.colors.mainBg};
