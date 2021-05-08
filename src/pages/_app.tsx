@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNprogress from 'nextjs-progressbar';
 import { ToastContainer } from 'react-toastify';
+import { Provider as JotaiProvider } from 'jotai';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,20 +32,22 @@ const App = ({ Component, pageProps }: AppProps) => {
     <AuthProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <ThemeProvider theme={theme}>
-            <Head>
-              <title>SEMA</title>
-            </Head>
-            <GlobalStyles />
-            <NextNprogress
-              color={theme.colors.primary}
-              startPosition={0.3}
-              stopDelayMs={200}
-              height={5}
-            />
-            <Component {...pageProps} />
-            <ToastContainer />
-          </ThemeProvider>
+          <JotaiProvider>
+            <ThemeProvider theme={theme}>
+              <Head>
+                <title>SEMA</title>
+              </Head>
+              <GlobalStyles />
+              <NextNprogress
+                color={theme.colors.primary}
+                startPosition={0.3}
+                stopDelayMs={200}
+                height={5}
+              />
+              <Component {...pageProps} />
+              <ToastContainer />
+            </ThemeProvider>
+          </JotaiProvider>
         </Hydrate>
       </QueryClientProvider>
     </AuthProvider>
