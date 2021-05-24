@@ -26,6 +26,7 @@ type WrapperProps = {
   position?: number;
   minimal: boolean;
 } & Pick<TableColumnProps, 'fixed' | 'contentAlign'>;
+
 export const Wrapper = styled.th<WrapperProps>`
   ${({ theme, fixed, position, minimal, contentAlign }) => css`
     border-bottom: 0.15rem solid ${theme.colors.lightSilver};

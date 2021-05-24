@@ -37,6 +37,10 @@ export const Wrapper = styled.td<WrapperProps>`
     padding: ${theme.spacings.xsmall};
     background: ${theme.colors.white};
     text-align: ${contentAlign};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 2rem;
 
     transition: box-shadow 0.3s ease-out;
 

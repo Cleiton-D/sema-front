@@ -2,34 +2,34 @@ import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 import SectionContent from 'components/SectionContent';
-import ListItem from 'components/ListItem';
+import TableColumn from 'components/TableColumn';
+
+export const TableSection = styled(SectionContent)`
+  margin-top: 2rem;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 1rem;
+`;
+
+export const SectionTitle = styled.div`
+  ${({ theme }) => css`
+    font-size: ${theme.font.sizes.large};
+    font-weight: ${theme.font.bold};
+    color: ${theme.colors.lightSilver};
+    padding: 2rem;
+    padding-top: 1.5rem;
+  `}
+`;
 
 export const AddButtonContainer = styled.div`
-  width: 19rem;
+  width: 25rem;
   align-self: flex-end;
 `;
 
-export const CardSchoolSubjects = styled(SectionContent).attrs({ as: 'ul' })`
-  ${({ theme }) => css`
-    width: 37vw;
-    height: max(50vh, 100%);
-    list-style: none;
-    padding: ${theme.spacings.xsmall} !important;
-  `}
-`;
-
-export const SchoolSubjectItem = styled(ListItem)`
-  justify-content: space-between;
-`;
-
-export const NameSchoolSubject = styled.span`
-  ${({ theme }) => css`
-    margin-left: 2rem;
-    line-height: 2.4rem;
-    color: ${theme.colors.black};
-    font-size: ${theme.font.sizes.medium};
-    font-weight: ${theme.font.normal};
-  `}
+export const ActionButtons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ActionEditButton = styled.button`
