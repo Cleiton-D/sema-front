@@ -6,9 +6,9 @@ import Base from 'templates/Base';
 
 import Heading from 'components/Heading';
 import Button from 'components/Button';
-import Table from 'components/Table';
-import TableColumn from 'components/TableColumn';
 import AddGradeModal, { ModalRef } from 'components/AddGradeModal';
+
+import { Grade } from 'models/Grade';
 
 import { useListGrades } from 'requests/queries/grades';
 import { useDeleteGradeMutation } from 'requests/mutations/grades';
@@ -20,6 +20,14 @@ const Grades = () => {
   const { data } = useListGrades(session);
 
   const mutation = useDeleteGradeMutation(session);
+  const handleDelete = (grade: Grade) => {
+    const confirmation = window.confirm(
+      `Deseja excluir a série ${grade.description}?`
+    );
+    if (confirmation) {
+      mutation.mutate(grade);
+    }
+  };
 
   const modalRef = useRef<ModalRef>(null);
   const handleOpenModal = () => {
@@ -38,30 +46,22 @@ const Grades = () => {
           Adicionar Série
         </Button>
       </S.AddButtonContainer>
-
-      <S.TableSection>
-        <S.SectionTitle>
-          <h4>Séries</h4>
-        </S.SectionTitle>
-      </S.TableSection>
-      <Table items={data || []} keyExtractor={(value) => value.id}>
-        <TableColumn label="Nome" tableKey="description" />
-        <TableColumn
-          label="Ações"
-          tableKey="id"
-          contentAlign="center"
-          actionColumn
-          render={(grade) => (
-            <S.ActionButton
-              type="button"
-              title={`Remover ${grade.description}`}
-              onClick={() => mutation.mutate(grade)}
-            >
-              <X size={20} />
-            </S.ActionButton>
-          )}
-        />
-      </Table>
+      <div>
+        <S.CardGrades>
+          {data?.map((item) => (
+            <S.GradeItem key={item.id} highlightOnHover>
+              <S.NameGrade>{item.description}</S.NameGrade>
+              <S.ActionDeleteButton
+                type="button"
+                title={`Remover ${item.description}`}
+                onClick={() => handleDelete(item)}
+              >
+                <X />
+              </S.ActionDeleteButton>
+            </S.GradeItem>
+          ))}
+        </S.CardGrades>
+      </div>
       <AddGradeModal ref={modalRef} />
     </Base>
   );
