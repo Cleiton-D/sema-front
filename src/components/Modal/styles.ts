@@ -4,12 +4,12 @@ const showModal = keyframes`
   from {
     visibility: hidden;
     opacity: 0;
-    transform: translateX(-50%) translateY(-0.5rem);
+    transform: translateX(-50%) translateY(calc(-50% + -0.5rem));
   }
   to {
     visibility: visible;
     opacity: 1;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-50%);
   }
 `;
 
@@ -21,9 +21,9 @@ export const Wrapper = styled.div`
     animation-fill-mode: forwards;
 
     position: fixed;
-    top: 20%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-0.5rem);
     z-index: ${theme.layers.modal};
     background: red;
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
