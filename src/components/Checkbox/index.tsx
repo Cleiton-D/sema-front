@@ -1,4 +1,4 @@
-import { useState, InputHTMLAttributes, useCallback } from 'react';
+import { useState, InputHTMLAttributes, useCallback, useEffect } from 'react';
 
 import * as S from './styles';
 
@@ -23,16 +23,20 @@ const Checkbox = ({
   inactive = false,
   ...props
 }: CheckboxProps) => {
-  const [checked, setChecked] = useState(isChecked);
+  const [checked, setChecked] = useState(!!isChecked);
 
-  const onChange = useCallback(() => {
+  const onChange = () => {
     setChecked((status) => {
       const newStatus = !status;
 
       !!onCheck && onCheck(newStatus);
       return newStatus;
     });
-  }, [onCheck]);
+  };
+
+  useEffect(() => {
+    setChecked(!!isChecked);
+  }, [isChecked]);
 
   return (
     <S.Wrapper>

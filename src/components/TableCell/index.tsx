@@ -18,7 +18,14 @@ const TableCell = ({
   columnProps,
   renderInternalContent
 }: TableCellProps) => {
-  const { fixed, contentAlign, actionColumn, render, children } = columnProps;
+  const {
+    fixed,
+    contentAlign,
+    actionColumn,
+    render,
+    children,
+    open
+  } = columnProps;
 
   const [position, setPosition] = useState(0);
   const [showing, setShowing] = useState(false);
@@ -30,9 +37,13 @@ const TableCell = ({
   }, []);
 
   const handleRenderInternalContent = useCallback(() => {
-    renderInternalContent(showing ? null : children);
-    setShowing(!showing);
-  }, [renderInternalContent, children, showing]);
+    if (!open) {
+      setShowing((currentShowing) => {
+        renderInternalContent(currentShowing ? null : children);
+        return !currentShowing;
+      });
+    }
+  }, [renderInternalContent, children, open]);
 
   useEffect(() => {
     if (!fixed) return;
@@ -45,10 +56,12 @@ const TableCell = ({
     };
   }, [columnProps, onChangePosition, eventEmitter, fixed]);
 
-  // const renderedContent = useMemo(() => (render ? render(value) : value), [
-  //   value,
-  //   render
-  // ]);
+  useEffect(() => {
+    if (open && children) {
+      setShowing(true);
+    }
+  }, [open, children]);
+
   const renderedContent = useMemo(() => {
     if (!render) return item[objectKey];
 

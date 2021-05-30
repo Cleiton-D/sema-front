@@ -13,9 +13,10 @@ export default function SchoolsPage() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
 
-  const dehydratedState = await prefetchQuery('get-schools', () =>
-    listSchools(session)
-  );
+  const dehydratedState = await prefetchQuery({
+    key: 'get-schools',
+    fetcher: () => listSchools(session)
+  });
 
   return {
     props: {

@@ -7,7 +7,7 @@ export type ListItemProps = {
 const lisItemModifiers = {
   highlightOnHover: () => css`
     cursor: pointer;
-    transition: transform 0.2s ease-out;
+    transition: all 0.2s ease-out;
 
     &:hover {
       transform: translateX(0.5rem);

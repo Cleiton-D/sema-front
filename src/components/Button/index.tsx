@@ -11,7 +11,7 @@ export type ButtonProps = {
   fullWidth?: boolean;
   icon?: React.ReactNode;
   as?: React.ElementType;
-  styleType: 'normal' | 'rounded' | 'outlined';
+  styleType?: 'normal' | 'rounded' | 'outlined';
 } & ButtonTypes;
 
 const Button: React.ForwardRefRenderFunction<S.WrapperProps, ButtonProps> = (

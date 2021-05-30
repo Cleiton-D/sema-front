@@ -6,7 +6,10 @@ import SectionContent from 'components/SectionContent';
 import ListItem from 'components/ListItem';
 
 export const Wrapper = styled(SectionContent).attrs({ as: 'article' })`
-  padding: 1.5rem !important;
+  ${({ theme }) => css`
+    padding: 1.5rem !important;
+    box-shadow: ${theme.shadow.elevateCardShadow};
+  `}
 `;
 
 export const SectionTitle = styled.div`

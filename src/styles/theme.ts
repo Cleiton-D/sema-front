@@ -3,6 +3,9 @@ export default {
     container: '130rem',
     gutter: '3.2rem'
   },
+  shadow: {
+    elevateCardShadow: '0rem 0rem 0.2rem #BFC1C2'
+  },
   border: {
     radius: '0.4rem'
   },

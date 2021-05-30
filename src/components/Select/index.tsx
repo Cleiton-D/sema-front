@@ -1,57 +1,87 @@
-import { SelectHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useField } from '@unform/core';
+
+import TextInput from 'components/TextInput';
 
 import * as S from './styles';
 
-type DefaultSelectProps = SelectHTMLAttributes<HTMLSelectElement>;
-
-type SelectOption = {
+export type Option = {
   label: string;
   value: any;
 };
 
-type SelectProps = Omit<DefaultSelectProps, 'value'> & {
+type SelectProps = {
   label: string;
   name: string;
-  options?: SelectOption[];
+  options?: Option[];
+  emptyOption?: boolean;
+  onChange?: (value?: any) => void;
+  className?: string;
+  disabled?: boolean;
 };
 
-const Select = ({ name, label, options = [] }: SelectProps) => {
-  const [hasValue, setHasValue] = useState(false);
-  const { defaultValue, fieldName, registerField } = useField(name);
+const Select = ({
+  name,
+  label,
+  options = [],
+  className,
+  emptyOption = false,
+  disabled = false,
+  onChange
+}: SelectProps) => {
+  const [open, setOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<Option>();
 
-  const selectRef = useRef<HTMLSelectElement>(null);
+  const { defaultValue, fieldName, registerField, error } = useField(name);
 
-  const handleSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-    setHasValue(!!value);
+  const handleChange = (option?: Option) => {
+    setSelectedOption(option);
+    onChange && onChange(option?.value);
   };
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: selectRef,
-      getValue: (ref) => ref.current.value
+      getValue: () => selectedOption?.value
     });
-  }, [registerField, fieldName]);
+  }, [registerField, fieldName, selectedOption]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      const defaultOption = options.find(
+        (option) => option.value === defaultValue
+      );
+      setSelectedOption(defaultOption);
+    }
+  }, [defaultValue, options]);
 
   return (
-    <S.Wrapper>
-      <S.Label hasValue={hasValue}>
-        <span>{label}</span>
-        <S.Input
-          ref={selectRef}
-          defaultValue={defaultValue}
-          onChange={handleSelectOption}
-        >
-          <option></option>
-          {options.map(({ label, value }) => (
-            <option key={`${label}_${value}`} value={value}>
-              {label}
-            </option>
-          ))}
-        </S.Input>
-      </S.Label>
+    <S.Wrapper className={className}>
+      <TextInput
+        name={name}
+        label={label}
+        unformRegister={false}
+        readOnly
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        value={selectedOption?.label}
+        icon={<S.ArrowIcon isOpen={open} />}
+        error={error}
+        disabled={disabled}
+      />
+      <S.OptionsList isOpen={open}>
+        {emptyOption && (
+          <S.Option onClick={() => handleChange(undefined)}>&nbsp;</S.Option>
+        )}
+        {options.map((option) => (
+          <S.Option
+            key={`${option.label}-${JSON.stringify(option.value)}`}
+            onClick={() => handleChange(option)}
+          >
+            {option.label}
+          </S.Option>
+        ))}
+      </S.OptionsList>
     </S.Wrapper>
   );
 };

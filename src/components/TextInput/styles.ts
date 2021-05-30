@@ -3,6 +3,7 @@ import { InputAs } from '.';
 
 type WrapperProps = {
   inputAs: InputAs;
+  disabled: boolean;
 };
 
 const wrapperModifiers = {
@@ -15,10 +16,17 @@ const wrapperModifiers = {
 };
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ inputAs }) => css`
+  ${({ inputAs, disabled }) => css`
     position: relative;
     line-height: 1.2rem;
     width: 100%;
+
+    ${disabled &&
+    css`
+      * {
+        pointer-events: none !important;
+      }
+    `}
 
     ${wrapperModifiers[inputAs]}
   `}
@@ -88,6 +96,18 @@ export const Label = styled.label<LabelProps>`
 
 const TextArea = (theme: DefaultTheme) => css`
   padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
+`;
+
+export const InputContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 4rem;
+  height: 100%;
+  align-items: center;
+
+  > svg {
+    width: 2.4rem;
+    justify-self: center;
+  }
 `;
 
 export const Input = styled.input`

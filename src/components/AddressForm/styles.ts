@@ -5,7 +5,10 @@ import media from 'styled-media-query';
 import SectionContent from 'components/SectionContent';
 
 export const Wrapper = styled(SectionContent).attrs({ as: 'article' })`
-  padding: 1rem !important;
+  ${({ theme }) => css`
+    padding: 1rem !important;
+    box-shadow: ${theme.shadow.elevateCardShadow};
+  `}
 `;
 
 export const SectionTitle = styled.div`

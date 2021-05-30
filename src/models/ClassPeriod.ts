@@ -12,3 +12,12 @@ export type ClassPeriod = {
 export type FormattedClassPeriod = ClassPeriod & {
   translated_description: string;
 };
+
+export type ClassPeriodForm = {
+  description: string;
+  time_start: string;
+  time_end: string;
+  class_time: string;
+  break_time: string;
+  break_time_start: string;
+};

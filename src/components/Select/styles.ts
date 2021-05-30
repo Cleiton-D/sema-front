@@ -1,69 +1,70 @@
-import styled, { css, DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
+import { ChevronDown } from '@styled-icons/feather';
 
 export const Wrapper = styled.div`
   position: relative;
   height: 5rem;
   width: 100%;
+  cursor: pointer;
+
+  label,
+  input {
+    cursor: pointer;
+  }
+
+  input {
+    color: #556365;
+  }
 `;
 
-const labelModifiers = {
-  inFocusOrValue: (theme: DefaultTheme) => css`
-    box-shadow: inset 0rem 0rem 0rem 0.2rem ${theme.colors.primary};
-
-    span {
-      top: 0;
-      font-size: ${theme.font.sizes.xsmall};
-      color: ${theme.colors.primary};
-    }
-  `
+type ArrowIconProps = {
+  isOpen: boolean;
 };
-
-type LabelProps = {
-  hasValue: boolean;
-};
-
-export const Label = styled.label<LabelProps>`
-  ${({ theme, hasValue }) => css`
-    display: block;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    border-radius: 0.5rem;
+export const ArrowIcon = styled(ChevronDown)<ArrowIconProps>`
+  ${({ isOpen }) => css`
     transition: all 0.3s ease;
-    box-shadow: inset 0rem 0rem 0rem 0.1rem ${theme.colors.lightSilver};
 
-    span {
-      position: absolute;
-      padding: 0 0.3rem;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: ${theme.font.sizes.small};
-      color: ${theme.colors.lightSilver};
-      background: ${theme.colors.white};
-      transition: all 0.15s ease-out;
-    }
-
-    ${hasValue && labelModifiers.inFocusOrValue(theme)}
-
-    &:focus-within {
-      ${labelModifiers.inFocusOrValue(theme)}
-    }
+    ${isOpen &&
+    css`
+      transform: rotateZ(180deg);
+    `}
   `}
 `;
 
-export const Input = styled.select`
-  ${({ theme }) => css`
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: 0;
-    background: transparent;
-    appearance: none;
-    cursor: pointer;
-    padding: 0 ${theme.spacings.xsmall};
-    font-family: ${theme.font.poppins};
-    font-size: ${theme.font.sizes.small};
-    color: ${theme.colors.black};
+type OptionsListProps = {
+  isOpen: boolean;
+};
+
+export const OptionsList = styled.div<OptionsListProps>`
+  ${({ theme, isOpen }) => css`
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fdfdfd;
+    padding: 1rem 0.5rem;
+    padding-top: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+    z-index: ${theme.layers.base};
+    box-shadow: 0rem 0rem 0.4rem rgba(51, 73, 77, 0.3);
+    transition: all 0.2s ease-out;
+
+    ${!isOpen &&
+    css`
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-0.2rem);
+    `}
   `}
+`;
+
+export const Option = styled.div`
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #556365;
+  height: 100%;
+
+  :hover {
+    background: #f5f5f5;
+  }
 `;

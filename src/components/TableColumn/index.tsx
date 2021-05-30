@@ -6,6 +6,8 @@ import { getElementPositionFromParent } from 'utils/getElementPositionFromParent
 
 import * as S from './styles';
 
+type RenderChildrenFunction = (item: any) => React.ReactNode;
+
 export type TableColumnProps = {
   tableKey: string;
   label: string;
@@ -13,7 +15,8 @@ export type TableColumnProps = {
   contentAlign?: 'left' | 'center' | 'right';
   actionColumn?: boolean;
   render?: (value: any) => React.ReactNode;
-  children?: React.ReactNode;
+  children?: React.ReactNode | RenderChildrenFunction;
+  open?: boolean;
 };
 
 const TableColumn = ({

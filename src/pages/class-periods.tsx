@@ -13,9 +13,10 @@ export default function ClassPeriodsPage() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
 
-  const dehydratedState = await prefetchQuery('get-class-periods', () =>
-    listClassPeriods(session)
-  );
+  const dehydratedState = await prefetchQuery({
+    key: 'get-class-periods',
+    fetcher: () => listClassPeriods(session)
+  });
 
   return {
     props: {

@@ -33,10 +33,14 @@ const NewSchool = () => {
 
   const handleFinish = useAtomCallback(async (get) => {
     const finalState = get(createSchoolData);
-    await mutation.mutateAsync(finalState);
-    resetForm();
 
-    push('/administration/schools');
+    const { contacts, ...finalData } = finalState;
+    const contactsWithoutId = contacts.map(({ id: _, ...contact }) => contact);
+
+    await mutation.mutateAsync({ ...finalData, contacts: contactsWithoutId });
+
+    await push('/administration/schools');
+    resetForm();
   }, []);
 
   return (

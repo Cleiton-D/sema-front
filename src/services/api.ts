@@ -3,6 +3,7 @@ import { Session } from 'next-auth';
 import axios from 'axios';
 import {
   MutationFunction,
+  QueryClient,
   useMutation as useReactQueryMutation,
   useQueryClient
 } from 'react-query';
@@ -134,3 +135,11 @@ export function useMutation(
     }
   });
 }
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 10000
+    }
+  }
+});

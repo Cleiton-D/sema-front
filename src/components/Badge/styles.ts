@@ -8,26 +8,22 @@ const wrapperModifiers = {
   green: (theme: DefaultTheme) => css`
     border: 0.1rem solid ${theme.colors.secondary};
     color: ${theme.colors.secondary};
-    border-radius: 10rem;
   `,
   blue: (theme: DefaultTheme) => css`
     border: 0.1rem solid ${theme.colors.primary};
     color: ${theme.colors.primary};
-    border-radius: 10rem;
   `,
-  orange: () => css`
-    background: #f4da85;
+  orange: (theme: DefaultTheme) => css`
+    background: ${theme.colors.yellow};
     color: #50605c;
-    border-radius: 10rem;
   `,
   red: (theme: DefaultTheme) => css`
-    background: #ee4c4c;
+    background: ${theme.colors.red};
     color: ${theme.colors.white};
-    border-radius: 10rem;
   `
 };
 
-export const Wrapper = styled.h1<WrapperProps>`
+export const Wrapper = styled.span<WrapperProps>`
   ${({ theme, styledType }) => css`
     display: inline-block;
     padding: 0.8rem 2rem;
@@ -36,7 +32,9 @@ export const Wrapper = styled.h1<WrapperProps>`
     font-style: normal;
     line-height: 1rem;
     text-align: center;
+    max-width: min-content;
+    border-radius: 10rem;
 
-    ${!!styledType && wrapperModifiers[styledType](theme)}
+    ${wrapperModifiers[styledType](theme)}
   `}
 `;

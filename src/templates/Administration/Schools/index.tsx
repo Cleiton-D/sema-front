@@ -30,6 +30,7 @@ const Schools = () => {
       <S.AddButtonContainer>
         <Button
           styleType="normal"
+          size="medium"
           icon={<PlusCircle />}
           onClick={handleNewSchool}
         >
