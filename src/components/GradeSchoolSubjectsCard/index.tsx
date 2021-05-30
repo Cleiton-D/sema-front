@@ -51,7 +51,7 @@ const GradeSchoolSubjectsCard = ({
           <h4>Disciplinas</h4>
           {gradeId && data && (
             <Button size="small" onClick={() => modalRef.current?.openModal()}>
-              Adicionar disciplica
+              Adicionar disciplina
             </Button>
           )}
         </S.SectionTitle>
