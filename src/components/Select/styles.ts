@@ -58,13 +58,24 @@ export const OptionsList = styled.div<OptionsListProps>`
   `}
 `;
 
-export const Option = styled.div`
-  padding: 1rem;
-  margin-top: 1rem;
-  color: #556365;
-  height: 100%;
+type OptionProps = {
+  disabled?: boolean;
+};
+export const Option = styled.div<OptionProps>`
+  ${({ disabled }) => css`
+    padding: 1rem;
+    margin-top: 1rem;
+    color: #556365;
+    height: 100%;
 
-  :hover {
-    background: #f5f5f5;
-  }
+    ${disabled &&
+    css`
+      pointer-events: none;
+      cursor: not-allowed;
+    `}
+
+    :hover {
+      background: #f5f5f5;
+    }
+  `}
 `;
