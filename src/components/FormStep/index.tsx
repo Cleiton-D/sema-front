@@ -1,8 +1,9 @@
-import { Children, useState, cloneElement, useMemo } from 'react';
+import React, { Children, useState, cloneElement, useMemo } from 'react';
 import { Variants, Variant } from 'framer-motion';
-import { FormHandles } from '@unform/core';
 
 import Button from 'components/Button';
+
+import { FormHandles } from 'models/Form';
 
 import * as S from './styles';
 
@@ -17,6 +18,7 @@ const FormStep = ({
   finishButtonText = 'Concluir',
   onFinish
 }: StepFormProps) => {
+  const [saving, setSaving] = useState(false);
   const [index, setIndex] = useState(0);
   const [refs, setRefs] = useState<FormHandles[]>([]);
 
@@ -39,9 +41,25 @@ const FormStep = ({
     [items]
   );
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const ref = refs[index];
-    ref?.submitForm();
+
+    setSaving(true);
+
+    const success = await new Promise<boolean>((resolve) => {
+      ref
+        ?.submitForm()
+        .then(() => resolve(true))
+
+        .catch((err) => {
+          console.error('could not send data, ', err);
+          resolve(false);
+        });
+    });
+
+    setSaving(false);
+
+    if (!success) return;
 
     if (index === items.length - 1) {
       onFinish && onFinish();
@@ -92,7 +110,6 @@ const FormStep = ({
       x: 0,
       scale: 1,
       position: 'static',
-      boxShadow: '0px 0px 2px #BFC1C2',
       display: 'block'
     }
   };
@@ -129,8 +146,12 @@ const FormStep = ({
           </Button>
         )}
 
-        <Button styleType="rounded" onClick={handleNext}>
-          {index === items.length - 1 ? finishButtonText : 'Próximo'}
+        <Button styleType="rounded" onClick={handleNext} disabled={saving}>
+          {saving
+            ? 'Salvando...'
+            : index === items.length - 1
+            ? finishButtonText
+            : 'Próximo'}
         </Button>
       </S.SectionButtons>
     </S.Wrapper>
