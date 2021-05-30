@@ -4,6 +4,7 @@ import mergeRefs from 'react-merge-refs';
 import Modal, { ModalRef } from 'components/Modal';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+import Select from 'components/Select';
 
 import { ContactFormData } from 'models/Contact';
 
@@ -38,7 +39,14 @@ const AddContactModal: React.ForwardRefRenderFunction<
     >
       <S.Wrapper>
         <S.Form onSubmit={handleSubmit}>
-          <TextInput name="type" label="Tipo" />
+          <Select
+            name="type"
+            label="Tipo"
+            options={[
+              { label: 'Telefone', value: 'phone' },
+              { label: 'Email', value: 'email' }
+            ]}
+          />
           <TextInput name="description" label="Descrição" />
           <S.ButtonsContainer>
             <Button

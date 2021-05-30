@@ -1,27 +1,25 @@
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { useAtom, PrimitiveAtom } from 'jotai';
 import { PlusCircle, X } from '@styled-icons/feather';
 import { v4 as uuidv4 } from 'uuid';
-
-import * as S from './styles';
 
 import { ModalRef } from 'components/Modal';
 import AddContactModal from 'components/AddContactModal';
 
 import { ContactFormData } from 'models/Contact';
+import { translateContactType } from 'utils/mappers/contactsMapper';
+
+import * as S from './styles';
+import { FormHandles } from 'models/Form';
 
 type ContactsFormProps = {
   jotaiState: PrimitiveAtom<ContactFormData[]>;
 };
 
-type ContactsFormRef = {
-  submitForm: () => void;
-};
-
 const ContactsForm: React.ForwardRefRenderFunction<
-  ContactsFormRef,
+  FormHandles,
   ContactsFormProps
-> = ({ jotaiState }, _) => {
+> = ({ jotaiState }, ref) => {
   const [state, setState] = useAtom(jotaiState);
   const modalRef = useRef<ModalRef>(null);
 
@@ -33,6 +31,10 @@ const ContactsForm: React.ForwardRefRenderFunction<
   const handleRemoveItem = (id: string) => {
     setState((old) => old.filter((item) => item.id !== id));
   };
+
+  useImperativeHandle(ref, () => ({
+    submitForm: () => Promise.resolve()
+  }));
 
   return (
     <S.Wrapper>
@@ -46,7 +48,7 @@ const ContactsForm: React.ForwardRefRenderFunction<
             <div>
               <div>
                 <strong>Tipo:</strong>
-                <span>{item.type}</span>
+                <span>{translateContactType(item.type)}</span>
               </div>
               <div>
                 <strong>Contato:</strong>

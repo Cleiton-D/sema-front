@@ -1,5 +1,5 @@
 import { Session } from 'next-auth';
-import { useQuery } from 'react-query';
+import { QueryOptions, useQuery } from 'react-query';
 
 import { SchoolWithEnrollCount } from 'models/School';
 import { initializeApi } from 'services/api';
@@ -12,6 +12,13 @@ export const listSchools = (session?: Session | null) => {
     .then((response) => response.data);
 };
 
-export const useListSchools = (session?: Session | null) => {
-  return useQuery('get-schools', () => listSchools(session));
+export const useListSchools = (
+  session?: Session | null,
+  queryOptions: QueryOptions<SchoolWithEnrollCount[]> = {}
+) => {
+  return useQuery<SchoolWithEnrollCount[]>(
+    'get-schools',
+    () => listSchools(session),
+    queryOptions
+  );
 };

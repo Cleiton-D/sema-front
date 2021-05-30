@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { Form as Unform } from '@unform/web';
 
 import * as InputStyles from 'components/TextInput/styles';
+import * as SelectStyles from 'components/Select/styles';
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -14,7 +15,7 @@ export const Wrapper = styled.div`
 
 export const Form = styled(Unform)`
   ${({ theme }) => css`
-    ${InputStyles.Wrapper} {
+    ${InputStyles.Wrapper}, ${SelectStyles.Wrapper} {
       margin-bottom: ${theme.spacings.small};
 
       &:last-of-type {

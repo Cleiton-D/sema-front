@@ -13,9 +13,10 @@ export default function UsersPage() {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
 
-  const dehydratedState = await prefetchQuery('get-users', () =>
-    listUsers(session)
-  );
+  const dehydratedState = await prefetchQuery({
+    key: 'get-users',
+    fetcher: () => listUsers(session)
+  });
 
   return { props: { session, dehydratedState } };
 }
