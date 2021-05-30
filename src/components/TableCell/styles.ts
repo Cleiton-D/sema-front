@@ -38,6 +38,11 @@ export const Wrapper = styled.td<WrapperProps>`
     background: ${theme.colors.white};
     text-align: ${contentAlign};
 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 2rem;
+
     transition: box-shadow 0.3s ease-out;
 
     ${!!fixed && columnFixedModifier(theme, position)}
