@@ -6,6 +6,8 @@ import Base from 'templates/Base';
 
 import Heading from 'components/Heading';
 import Button from 'components/Button';
+import TableColumn from 'components/TableColumn';
+import Table from 'components/Table';
 import AddSchoolSubjectModal, {
   SchoolSubjectModalRef
 } from 'components/AddSchoolSubjectModal';
@@ -42,38 +44,51 @@ const SchoolSubjects = () => {
       <S.AddButtonContainer>
         <Button
           styleType="normal"
-          size="medium"
           icon={<PlusCircle />}
           onClick={handleOpenModal}
         >
           Adicionar Disciplinas
         </Button>
       </S.AddButtonContainer>
-      <div>
-        <S.CardSchoolSubjects>
-          {data?.map((item) => (
-            <S.SchoolSubjectItem key={item.id} highlightOnHover>
-              <S.NameSchoolSubject>{item.description}</S.NameSchoolSubject>
-              <div style={{ display: 'flex' }}>
-                <S.ActionEditButton
-                  type="button"
-                  title={`Alterar a disciplina ${item.description}`}
-                  onClick={() => modalRef.current?.openModal(item)}
-                >
-                  <Edit title={`Alterar a disciplina ${item.description}`} />
-                </S.ActionEditButton>
-                <S.ActionDeleteButton
-                  type="button"
-                  title={`Remover ${item.description}`}
-                  onClick={() => handleDelete(item)}
-                >
-                  <X />
-                </S.ActionDeleteButton>
-              </div>
-            </S.SchoolSubjectItem>
-          ))}
-        </S.CardSchoolSubjects>
-      </div>
+
+      <S.TableSection>
+        <S.SectionTitle>
+          <h4>Disciplinas</h4>
+        </S.SectionTitle>
+      </S.TableSection>
+      <Table items={data || []} keyExtractor={(item) => item.id}>
+        <TableColumn label="Nome" tableKey="description" />
+        <TableColumn
+          label="Descrição da disciplina"
+          tableKey="additional_description"
+        />
+        <TableColumn
+          label="Ações"
+          tableKey="id"
+          contentAlign="center"
+          actionColumn
+          render={(schoolSubject) => (
+            <S.ActionButtons>
+              <S.ActionEditButton
+                type="button"
+                title={`Alterar a disciplina ${schoolSubject.description}`}
+                onClick={() => modalRef.current?.openModal(schoolSubject)}
+              >
+                <Edit
+                  title={`Alterar a disciplina ${schoolSubject.description}`}
+                />
+              </S.ActionEditButton>
+              <S.ActionDeleteButton
+                type="button"
+                title={`Excluir a disciplina ${schoolSubject.description}`}
+                onClick={() => handleDelete(schoolSubject)}
+              >
+                <X />
+              </S.ActionDeleteButton>
+            </S.ActionButtons>
+          )}
+        />
+      </Table>
       <AddSchoolSubjectModal ref={modalRef} />
     </Base>
   );
