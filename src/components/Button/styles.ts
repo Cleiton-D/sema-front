@@ -11,6 +11,7 @@ const wrapperModifiers = {
   small: (theme: DefaultTheme) => css`
     height: 3rem;
     font-size: ${theme.font.sizes.xsmall};
+    font-weight: ${theme.font.medium};
   `,
   medium: (theme: DefaultTheme) => css`
     height: 4rem;
@@ -72,6 +73,7 @@ export const Wrapper = styled.button<WrapperProps>`
     padding: ${theme.spacings.xxsmall};
     text-decoration: none;
     cursor: pointer;
+    font-family: ${theme.font.poppins};
     font-weight: ${theme.font.bold};
     transition: background 0.3s ease;
     width: 100%;
