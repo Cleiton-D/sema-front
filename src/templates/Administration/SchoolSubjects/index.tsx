@@ -56,7 +56,6 @@ const SchoolSubjects = () => {
           <h4>Disciplinas</h4>
         </S.SectionTitle>
       </S.TableSection>
-
       <Table items={data || []} keyExtractor={(item) => item.id}>
         <TableColumn label="Nome" tableKey="description" />
         <TableColumn
