@@ -46,7 +46,6 @@ const Grades = () => {
           Adicionar Série
         </Button>
       </S.AddButtonContainer>
-
       <div>
         <S.CardGrades>
           {data?.map((item) => (
