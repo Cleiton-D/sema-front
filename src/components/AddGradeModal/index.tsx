@@ -70,10 +70,15 @@ const AddGradeModal: ForwardRefRenderFunction<ModalRef> = (_, ref) => {
         <S.Form onSubmit={handleSave} ref={formRef}>
           <TextInput name="description" label="Nome" />
           <S.ButtonsContainer>
-            <Button styleType="outlined" onClick={handleBack} type="button">
+            <Button
+              styleType="outlined"
+              onClick={handleBack}
+              type="button"
+              size="medium"
+            >
               Voltar
             </Button>
-            <Button styleType="rounded" type="submit">
+            <Button styleType="rounded" type="submit" size="medium">
               Salvar
             </Button>
           </S.ButtonsContainer>
