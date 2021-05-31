@@ -1,9 +1,11 @@
-import { useState, useImperativeHandle, forwardRef } from 'react';
+import { useState, useImperativeHandle, forwardRef, useRef } from 'react';
 import { useSession } from 'next-auth/client';
 import { useAtomValue } from 'jotai/utils';
-import { X } from '@styled-icons/feather';
+import { X, PlusCircle } from '@styled-icons/feather';
 
 import GradeSchoolSubjectsCard from 'components/GradeSchoolSubjectsCard';
+import Button from 'components/Button';
+import AddGradeModal, { ModalRef } from 'components/AddGradeModal';
 
 import { Grade } from 'models/Grade';
 import { FormHandles } from 'models/Form';
@@ -20,11 +22,11 @@ const GradeSchoolSubjectsForm: React.ForwardRefRenderFunction<FormHandles> = (
   ref
 ) => {
   const [selectedGrade, setSelectedGrade] = useState<Grade>();
-
   const schoolYearAtomValue = useAtomValue(schoolYearAtom);
 
-  const [session] = useSession();
+  const addGradeModalRef = useRef<ModalRef>(null);
 
+  const [session] = useSession();
   const { data: grades } = useListGrades(session);
   const deleteGrade = useDeleteGradeMutation(session);
 
@@ -58,6 +60,13 @@ const GradeSchoolSubjectsForm: React.ForwardRefRenderFunction<FormHandles> = (
           <S.TableSection>
             <S.SectionTitle>
               <h4>Séries</h4>
+              <Button
+                size="small"
+                icon={<PlusCircle size={16} />}
+                onClick={() => addGradeModalRef.current?.openModal()}
+              >
+                Adicionar série
+              </Button>
             </S.SectionTitle>
             <S.List>
               {grades?.map((grade) => (
@@ -90,6 +99,7 @@ const GradeSchoolSubjectsForm: React.ForwardRefRenderFunction<FormHandles> = (
         active={!!selectedGrade}
         onClick={() => setSelectedGrade(undefined)}
       />
+      <AddGradeModal ref={addGradeModalRef} />
     </>
   );
 };

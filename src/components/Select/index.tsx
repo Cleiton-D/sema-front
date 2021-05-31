@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useField } from '@unform/core';
 
 import TextInput from 'components/TextInput';
@@ -32,28 +32,39 @@ const Select = ({
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option>();
 
+  const selectedOptionValue = useRef<Option | undefined>(undefined);
+
   const { defaultValue, fieldName, registerField, error } = useField(name);
 
   const handleChange = (option?: Option) => {
     setSelectedOption(option);
+    selectedOptionValue.current = option?.value;
     onChange && onChange(option?.value);
   };
+
+  const setValue = useCallback(
+    (value?: any) => {
+      const option = options.find((option) => option.value === value);
+      setSelectedOption(option);
+      selectedOptionValue.current = option ? value : undefined;
+    },
+    [options]
+  );
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      getValue: () => selectedOption?.value
+      ref: selectedOptionValue,
+      getValue: (ref) => ref.current,
+      setValue: (_, value) => setValue(value)
     });
-  }, [registerField, fieldName, selectedOption]);
+  }, [registerField, fieldName, selectedOption, setValue]);
 
   useEffect(() => {
     if (defaultValue) {
-      const defaultOption = options.find(
-        (option) => option.value === defaultValue
-      );
-      setSelectedOption(defaultOption);
+      setValue(defaultValue);
     }
-  }, [defaultValue, options]);
+  }, [defaultValue, setValue]);
 
   return (
     <S.Wrapper className={className}>
@@ -71,12 +82,15 @@ const Select = ({
       />
       <S.OptionsList isOpen={open}>
         {emptyOption && (
-          <S.Option onClick={() => handleChange(undefined)}>&nbsp;</S.Option>
+          <S.Option onClick={() => handleChange(undefined)} disabled={disabled}>
+            &nbsp;
+          </S.Option>
         )}
         {options.map((option) => (
           <S.Option
             key={`${option.label}-${JSON.stringify(option.value)}`}
             onClick={() => handleChange(option)}
+            disabled={disabled}
           >
             {option.label}
           </S.Option>

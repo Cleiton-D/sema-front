@@ -25,9 +25,16 @@ export const TableSection = styled(SectionContent)`
 
 export const SectionTitle = styled.div`
   ${({ theme }) => css`
+    display: flex;
+    justify-content: space-between;
+
     font-size: ${theme.font.sizes.large};
     font-weight: ${theme.font.bold};
     color: ${theme.colors.lightSilver};
+
+    > button {
+      width: 15rem;
+    }
   `}
 `;
 

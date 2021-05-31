@@ -36,6 +36,13 @@ type DatesObject = {
   dateEnd?: Date;
 };
 
+const referenceYearOptions = [
+  { label: '2020', value: '2020' },
+  { label: '2021', value: '2021' },
+  { label: '2022', value: '2022' },
+  { label: '2023', value: '2023' }
+];
+
 const SchoolYearBasicForm: React.ForwardRefRenderFunction<FormHandles> = (
   _,
   ref
@@ -144,12 +151,7 @@ const SchoolYearBasicForm: React.ForwardRefRenderFunction<FormHandles> = (
               name="reference_year"
               label="Ano referência"
               onChange={setReferenceYear}
-              options={[
-                { label: '2020', value: 2020 },
-                { label: '2021', value: 2021 },
-                { label: '2022', value: 2022 },
-                { label: '2023', value: 2023 }
-              ]}
+              options={referenceYearOptions}
             />
             <DatePicker
               name="date_start"

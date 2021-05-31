@@ -6,7 +6,6 @@ import * as InputStyles from 'components/TextInput/styles';
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     padding: ${theme.spacings.xxsmall};
-    padding-bottom: ${theme.spacings.small};
     width: 100%;
     min-width: 50rem;
   `}
@@ -30,8 +29,7 @@ export const ButtonsContainer = styled.div`
     justify-content: flex-end;
 
     button {
-      width: 17.1rem;
-      height: 4.6rem;
+      width: 16rem;
 
       & + button {
         margin-left: ${theme.spacings.xsmall};
