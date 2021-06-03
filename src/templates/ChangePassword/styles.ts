@@ -2,8 +2,9 @@ import styled, { css } from 'styled-components';
 import { Form as Unform } from '@unform/web';
 
 import SectionContent from 'components/SectionContent';
+import Heading from 'components/Heading';
+
 import * as InputStyles from 'components/TextInput/styles';
-import * as HeadingStyles from 'components/Heading/styles';
 
 export const Wrapper = styled.main`
   ${({ theme }) => css`
@@ -41,7 +42,7 @@ export const Content = styled(SectionContent)`
     padding: ${theme.spacings.small} !important;
     padding-top: ${theme.spacings.xxsmall};
 
-    ${HeadingStyles.Wrapper} {
+    ${Heading} {
       margin-bottom: ${theme.spacings.xsmall};
     }
   `}
