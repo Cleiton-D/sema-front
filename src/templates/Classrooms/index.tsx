@@ -120,13 +120,3 @@ const Classrooms = () => {
 };
 
 export default Classrooms;
-
-// class_period_id: "0997cb3f-f7df-4b59-9080-5f1c04536d2c"
-// created_at: "2021-06-03T01:41:44.232Z"
-// deleted_at: null
-// description: "teste"
-// grade_id: "b523dcc0-1e95-44fc-ad78-4e45d58e934b"
-// id: "bbb30117-f7bf-4466-8636-9705edeb75b2"
-// school_id: "a5fd4e15-e03a-4398-a003-9949250f93f2"
-// school_year_id: "2cb411c9-e95a-4287-86ed-7ab252cb00c9"
-// updated_at: "2021-06-03T01:41:44.232Z"
