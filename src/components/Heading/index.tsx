@@ -3,6 +3,7 @@ import styled, { css, DefaultTheme } from 'styled-components';
 export type HeadingProps = {
   size?: 'lg' | 'md' | 'sm';
   color?: keyof DefaultTheme['colors'];
+  children: React.ReactNode;
 };
 
 const headingModifiers = {
