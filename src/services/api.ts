@@ -32,7 +32,7 @@ export function useApi(session?: Session | null) {
   return store;
 }
 
-type ProcessQueryDataFn = (oldData: any, newData: any) => any;
+export type ProcessQueryDataFn = (oldData: any, newData: any) => any;
 
 type UseMutationOptions = {
   linkedQueries?: Record<string, ProcessQueryDataFn>;

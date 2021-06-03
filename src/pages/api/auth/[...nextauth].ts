@@ -1,8 +1,42 @@
+import { SchoolYear } from 'models/SchoolYear';
 import { NextApiRequest, NextApiResponse } from 'next';
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import Providers, { CredentialsProvider } from 'next-auth/providers';
 
 import { initializeApi } from 'services/api';
+
+const Teste: CredentialsProvider = (options) => ({
+  id: 'teste',
+  name: 'teste',
+  type: 'credentials',
+  authorize: () => null,
+  credentials: () => null,
+  ...options
+});
+
+const signInProvider = Providers.Credentials({
+  name: 'sign-in',
+  credentials: {},
+  async authorize({ email, password }: Record<string, string>) {
+    const api = initializeApi();
+
+    const response = await api.post(`/sessions`, {
+      login: email,
+      password
+    });
+
+    const { data } = response;
+    if (data.user) {
+      return {
+        ...data.user,
+        name: data.user.username,
+        jwt: data.token
+      };
+    }
+
+    return null;
+  }
+});
 
 const options = {
   jwt: {
@@ -12,26 +46,12 @@ const options = {
     signIn: '/sign-in'
   },
   providers: [
-    Providers.Credentials({
-      name: 'sign-in',
+    signInProvider,
+    Teste({
+      name: 'teste',
       credentials: {},
-      async authorize({ email, password }: Record<string, string>) {
-        const api = initializeApi();
-
-        const response = await api.post(`/sessions`, {
-          login: email,
-          password
-        });
-
-        const { data } = response;
-        if (data.user) {
-          return {
-            ...data.user,
-            name: data.user.username,
-            jwt: data.token
-          };
-        }
-
+      async authorize(args: Record<string, string>) {
+        console.log(args);
         return null;
       }
     })
@@ -44,20 +64,34 @@ const options = {
         headers: { authorization: user.jwt ? `Bearer ${user.jwt}` : '' }
       });
 
+      const { school_year_id, ...rest } = user;
+
       session.jwt = user.jwt;
       session.id = user.id;
       session.user = {
-        ...session.user,
+        ...rest,
         changePassword: data.change_password
+      };
+      session.configs = {
+        school_year_id: school_year_id
       };
 
       return Promise.resolve(session);
     },
     jwt: async (token: any, user: any) => {
       if (user) {
+        const api = initializeApi();
+        const { data } = await api.get<SchoolYear>(
+          '/education/admin/school-years/current',
+          {
+            headers: { authorization: user.jwt ? `Bearer ${user.jwt}` : '' }
+          }
+        );
+
         token.id = user.id;
         token.email = user.login;
         token.jwt = user.jwt;
+        token.school_year_id = data?.id;
       }
 
       return Promise.resolve(token);
