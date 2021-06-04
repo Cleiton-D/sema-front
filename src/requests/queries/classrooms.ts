@@ -24,6 +24,8 @@ export const deleteClassroomQueryMutation = (
 
 type ListClassroomsFilters = {
   school_id?: string;
+  grade_id?: string;
+  class_period_id?: string;
 };
 
 export const listClassrooms = (
@@ -32,10 +34,10 @@ export const listClassrooms = (
 ) => {
   const api = initializeApi(session);
 
-  const { school_id } = filters;
+  const { school_id, ...params } = filters;
 
   return api
-    .get<Classroom[]>(`/schools/${school_id || 'me'}/classrooms`)
+    .get<Classroom[]>(`/schools/${school_id || 'me'}/classrooms`, { params })
     .then((response) => response.data);
 };
 

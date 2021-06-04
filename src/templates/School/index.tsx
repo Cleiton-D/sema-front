@@ -43,7 +43,7 @@ const School = () => {
         </div>
         <S.Details>
           <S.Grid>
-            <Link href="/">
+            <Link href={`/school/${query.school_id}/enrolls`}>
               <S.LinkGridItem>
                 <strong>Alunos ativos</strong>
                 <span>{school?.enroll_count}</span>
