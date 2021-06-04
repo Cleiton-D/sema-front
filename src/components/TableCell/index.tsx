@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import dot from 'dot-object';
 
 import { TableColumnProps } from 'components/TableColumn';
 import { useTable } from 'components/Table';
@@ -63,9 +64,11 @@ const TableCell = ({
   }, [open, children]);
 
   const renderedContent = useMemo(() => {
-    if (!render) return item[objectKey];
+    const value = dot.pick(objectKey, item);
 
-    return actionColumn ? render(item) : render(item[objectKey]);
+    if (!render) return value;
+
+    return actionColumn ? render(item) : render(value);
   }, [item, objectKey, actionColumn, render]);
 
   return (
