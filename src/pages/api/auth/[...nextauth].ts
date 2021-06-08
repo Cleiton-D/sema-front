@@ -81,20 +81,42 @@ const options = {
     jwt: async (token: any, user: any) => {
       if (user) {
         const api = initializeApi();
-        const { data } = await api.get<SchoolYear>(
-          '/education/admin/school-years/current',
-          {
-            headers: { authorization: user.jwt ? `Bearer ${user.jwt}` : '' }
-          }
-        );
+
+        try {
+          const { data } = await api.get<SchoolYear>(
+            '/education/admin/school-years/current',
+            {
+              headers: { authorization: user.jwt ? `Bearer ${user.jwt}` : '' }
+            }
+          );
+
+          token.school_year_id = data?.id;
+        } catch {
+          token.school_year_id = undefined;
+        }
 
         token.id = user.id;
         token.email = user.login;
         token.jwt = user.jwt;
-        token.school_year_id = data?.id;
       }
 
       return Promise.resolve(token);
+      // if (user) {
+      //   const api = initializeApi();
+      //   const { data } = await api.get<SchoolYear>(
+      //     '/education/admin/school-years/current',
+      //     {
+      //       headers: { authorization: user.jwt ? `Bearer ${user.jwt}` : '' }
+      //     }
+      //   );
+
+      //   token.id = user.id;
+      //   token.email = user.login;
+      //   token.jwt = user.jwt;
+      //   token.school_year_id = data?.id;
+      // }
+
+      // return Promise.resolve(token);
     }
   }
 };
