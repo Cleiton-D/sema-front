@@ -4,6 +4,8 @@ import dot from 'dot-object';
 import { TableColumnProps } from 'components/TableColumn';
 import { useTable } from 'components/Table';
 
+import { withAccessComponent } from 'hooks/AccessProvider';
+
 import * as S from './styles';
 
 export type TableCellProps = {
@@ -25,7 +27,8 @@ const TableCell = ({
     actionColumn,
     render,
     children,
-    open
+    open,
+    ellipsis
   } = columnProps;
 
   const [position, setPosition] = useState(0);
@@ -78,6 +81,8 @@ const TableCell = ({
       minimal={minimal}
       contentAlign={contentAlign}
       showingDetail={showing}
+      ellipsis={ellipsis}
+      title={ellipsis && renderedContent}
     >
       {children ? (
         <S.ExpandButton onClick={handleRenderInternalContent}>
@@ -91,4 +96,4 @@ const TableCell = ({
   );
 };
 
-export default memo(TableCell);
+export default withAccessComponent(memo(TableCell));

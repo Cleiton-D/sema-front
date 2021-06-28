@@ -7,7 +7,6 @@ import {
   useImperativeHandle,
   forwardRef
 } from 'react';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
 import { PrimitiveAtom, useAtom } from 'jotai';
 import { FormHandles as UnformHandles } from '@unform/core';
@@ -17,6 +16,7 @@ import Select from 'components/Select';
 
 import { EnrollFormData } from 'models/Enroll';
 import { FormHandles } from 'models/Form';
+import { School } from 'models/School';
 
 import { useListGrades } from 'requests/queries/grades';
 import { useListClassrooms } from 'requests/queries/classrooms';
@@ -28,12 +28,13 @@ import * as S from './styles';
 
 type EnrollFormProps = {
   jotaiState: PrimitiveAtom<EnrollFormData>;
+  school: School;
 };
 
 const EnrollForm: React.ForwardRefRenderFunction<
   FormHandles,
   EnrollFormProps
-> = ({ jotaiState }, ref) => {
+> = ({ jotaiState, school }, ref) => {
   const [selectedGrade, setSelectedGrade] = useState<string>();
   const [selectedClassPeriod, setSelectedClassPeriod] = useState<string>();
 
@@ -41,12 +42,10 @@ const EnrollForm: React.ForwardRefRenderFunction<
 
   const [state, setState] = useAtom(jotaiState);
 
-  const { query } = useRouter();
-
   const [session] = useSession();
   const { data: grades } = useListGrades(session);
   const { data: classrooms, isLoading } = useListClassrooms(session, {
-    school_id: query.school_id as string,
+    school_id: school.id,
     grade_id: selectedGrade,
     class_period_id: selectedClassPeriod
   });

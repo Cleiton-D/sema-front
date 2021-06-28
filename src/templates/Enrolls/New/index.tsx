@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
+import { useResetAtom } from 'jotai/utils';
 
 import Base from 'templates/Base';
 
@@ -8,6 +10,8 @@ import FormStep from 'components/FormStep';
 import PersonForm from 'components/PersonForm';
 import ContactsForm from 'components/ContactsForm';
 import EnrollForm from 'components/EnrollForm';
+
+import { School } from 'models/School';
 
 import useAtomCallback from 'hooks/use-atom-callback';
 
@@ -21,13 +25,14 @@ import {
 import { useCreateEnroll } from 'requests/mutations/enroll';
 
 import * as S from './styles';
-import { useResetAtom } from 'jotai/utils';
 
 const personForm = <PersonForm jotaiState={personEnrollData} />;
 const contactsForm = <ContactsForm jotaiState={personEnrollContactsData} />;
-const enrollForm = <EnrollForm jotaiState={enrollData} />;
 
-const NewEnroll = () => {
+export type NewEnrollProps = {
+  school: School;
+};
+const NewEnroll = ({ school }: NewEnrollProps) => {
   const router = useRouter();
   const resetForm = useResetAtom(createEnrollData);
 
@@ -46,7 +51,7 @@ const NewEnroll = () => {
 
       const requestEnroll = {
         ...newEnroll,
-        school_id: router.query.school_id,
+        school_id: school.id,
         person: { ...newPerson, birth_date: newBirthDate }
       };
 
@@ -54,7 +59,12 @@ const NewEnroll = () => {
       resetForm();
       router.back();
     },
-    [router]
+    [router, school]
+  );
+
+  const enrollForm = useMemo(
+    () => <EnrollForm jotaiState={enrollData} school={school} />,
+    [school]
   );
 
   return (

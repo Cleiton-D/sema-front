@@ -7,10 +7,11 @@ import { ModalRef } from 'components/Modal';
 import AddContactModal from 'components/AddContactModal';
 
 import { ContactFormData } from 'models/Contact';
+import { FormHandles } from 'models/Form';
+
 import { translateContactType } from 'utils/mappers/contactsMapper';
 
 import * as S from './styles';
-import { FormHandles } from 'models/Form';
 
 type ContactsFormProps = {
   jotaiState: PrimitiveAtom<ContactFormData[]>;

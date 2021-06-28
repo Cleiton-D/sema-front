@@ -55,3 +55,58 @@ export const useListClassrooms = (
     queryRemoveMutation: deleteClassroomQueryMutation
   };
 };
+
+type ShowClassroomFilters = {
+  school_id?: string;
+  id: string;
+};
+export const showClassroom = (
+  session: Session | null,
+  filters: ShowClassroomFilters
+) => {
+  const api = initializeApi(session);
+  const { school_id, id } = filters;
+
+  return api
+    .get<Classroom>(`/schools/${school_id || 'me'}/classrooms/${id}`)
+    .then((response) => response.data);
+};
+
+export const useShowClassroom = (
+  session: Session | null,
+  filters: ShowClassroomFilters
+) => {
+  const key = `show-classroom-${JSON.stringify(filters)}`;
+
+  const result = useQuery(key, () => showClassroom(session, filters));
+  return { ...result, key };
+};
+
+type CountClassroomsResponse = {
+  count: number;
+};
+export const countClassrooms = (
+  session: Session | null,
+  filters: ListClassroomsFilters = {}
+) => {
+  const api = initializeApi(session);
+  const { school_id, ...params } = filters;
+
+  return api
+    .get<CountClassroomsResponse>(
+      `/schools/${school_id || 'me'}/classrooms/count`,
+      { params }
+    )
+    .then((response) => response.data)
+    .catch(() => undefined);
+};
+
+export const useCountClassrooms = (
+  session: Session | null,
+  filters: ListClassroomsFilters = {}
+) => {
+  const key = `count-classrooms-${JSON.stringify(filters)}`;
+  const result = useQuery(key, () => countClassrooms(session, filters));
+
+  return { ...result, key };
+};

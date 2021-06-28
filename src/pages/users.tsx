@@ -6,7 +6,7 @@ import protectedRoutes from 'utils/protected-routes';
 import prefetchQuery from 'utils/prefetch-query';
 import { listUsers } from 'requests/queries/users';
 
-export default function UsersPage() {
+function UsersPage() {
   return <Users />;
 }
 
@@ -20,3 +20,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return { props: { session, dehydratedState } };
 }
+
+UsersPage.auth = {
+  module: 'USER'
+};
+
+export default UsersPage;

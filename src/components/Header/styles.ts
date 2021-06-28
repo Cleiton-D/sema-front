@@ -15,20 +15,15 @@ export const Wrapper = styled.header`
 export const ProfileContainer = styled.div`
   ${({ theme }) => css`
     display: flex;
+    align-items: center;
     font-family: ${theme.font.inter};
     font-size: ${theme.font.sizes.medium};
+    height: 100%;
 
     > span {
       font-weight: ${theme.font.normal};
       color: ${theme.colors.lightSilver};
-    }
-
-    > p {
-      font-weight: ${theme.font.bold};
-      color: ${theme.colors.primary};
-      text-transform: uppercase;
-      letter-spacing: 0.05rem;
-      margin-left: ${theme.spacings.xxsmall};
+      margin-right: ${theme.spacings.xxsmall};
     }
   `}
 `;

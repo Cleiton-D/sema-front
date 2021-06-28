@@ -1,4 +1,4 @@
-import { useState, InputHTMLAttributes, useCallback, useEffect } from 'react';
+import { useState, InputHTMLAttributes, useEffect } from 'react';
 
 import * as S from './styles';
 

@@ -7,7 +7,7 @@ import { storeServerAtom } from 'hooks/AtomProvider';
 
 import { getSchoolYearWithSchoolTerms } from 'requests/queries/school-year';
 
-export default function EditSchoolYearPage() {
+function EditSchoolYearPage() {
   return <NewSchoolYear />;
 }
 
@@ -50,3 +50,9 @@ export async function getServerSideProps(
     }
   };
 }
+
+EditSchoolYearPage.auth = {
+  module: 'SCHOOL_YEAR'
+};
+
+export default EditSchoolYearPage;

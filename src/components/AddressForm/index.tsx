@@ -30,18 +30,18 @@ const AddressForm: React.ForwardRefRenderFunction<
     <S.Wrapper>
       <S.SectionTitle>
         <h4>Endereço</h4>
-        <S.Form
-          initialData={state}
-          onSubmit={(values) => setState(values)}
-          ref={formRef}
-        >
-          <TextInput name="street" label="Logradouro" />
-          <TextInput name="house_number" label="Número" />
-          <TextInput name="city" label="Cidade" />
-          <TextInput name="district" label="Bairro" />
-          <TextInput name="region" label="Regiao" />
-        </S.Form>
       </S.SectionTitle>
+      <S.Form
+        initialData={state}
+        onSubmit={(values) => setState(values)}
+        ref={formRef}
+      >
+        <TextInput name="street" label="Logradouro" />
+        <TextInput name="house_number" label="Número" />
+        <TextInput name="city" label="Cidade" />
+        <TextInput name="district" label="Bairro" />
+        <TextInput name="region" label="Regiao" />
+      </S.Form>
     </S.Wrapper>
   );
 };

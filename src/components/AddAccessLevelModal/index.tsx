@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/client';
 import { FormHandles } from '@unform/core';
 import { ValidationError } from 'yup';
 
-import Modal, { ModalRef as DefaultModalRef } from 'components/Modal';
+import Modal, { ModalRef } from 'components/Modal';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 
@@ -19,20 +19,22 @@ import { addAccessLevelSchema } from './rules/schema';
 
 import * as S from './styles';
 
-export type ModalRef = DefaultModalRef;
-
 export type AccessLevelModalRef = {
   openModal: () => void;
+};
+
+type AddAccesslevelModalProps = {
+  refetchFn: () => void;
 };
 
 type AddAccessLevelData = {
   description: string;
 };
 
-const AddAccesslevelModal: ForwardRefRenderFunction<AccessLevelModalRef> = (
-  _,
-  ref
-) => {
+const AddAccesslevelModal: ForwardRefRenderFunction<
+  AccessLevelModalRef,
+  AddAccesslevelModalProps
+> = ({ refetchFn }, ref) => {
   const modalRef = useRef<ModalRef>(null);
   const [session] = useSession();
   const mutation = useAddAccessLevelMutation(modalRef, session);
@@ -47,9 +49,10 @@ const AddAccesslevelModal: ForwardRefRenderFunction<AccessLevelModalRef> = (
         await addAccessLevelSchema.validate(values, { abortEarly: false });
 
         const { description } = values;
-        const code = description.trim().toLowerCase().replaceAll(' ', '-');
+        const code = description.trim().toLowerCase().replace(/\s+/g, '-');
 
-        mutation.mutate({ description, code });
+        await mutation.mutateAsync({ description, code });
+        refetchFn();
       } catch (err) {
         if (err instanceof ValidationError) {
           const validationErrors: Record<string, string> = {};
@@ -63,7 +66,7 @@ const AddAccesslevelModal: ForwardRefRenderFunction<AccessLevelModalRef> = (
         }
       }
     },
-    [mutation]
+    [mutation, refetchFn]
   );
 
   const handleBack = useCallback(() => {

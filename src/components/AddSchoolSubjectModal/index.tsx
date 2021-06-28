@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/client';
 import { FormHandles } from '@unform/core';
 import { ValidationError } from 'yup';
 
-import Modal, { ModalRef as DefaultModalRef } from 'components/Modal';
+import Modal, { ModalRef } from 'components/Modal';
 import TextInput from 'components/TextInput';
 import Button from 'components/Button';
 
@@ -22,10 +22,12 @@ import { addSchoolSubjectSchema } from './rules/schema';
 
 import * as S from './styles';
 
-export type ModalRef = DefaultModalRef;
-
 export type SchoolSubjectModalRef = {
   openModal: (schoolSubject?: SchoolSubject) => void;
+};
+
+type AddSchoolSubjectModalProps = {
+  refetchFn?: () => void;
 };
 
 type AddSchoolSubjectData = {
@@ -33,10 +35,10 @@ type AddSchoolSubjectData = {
   additional_description: string;
 };
 
-const AddSchoolSubjectModal: ForwardRefRenderFunction<SchoolSubjectModalRef> = (
-  _,
-  ref
-) => {
+const AddSchoolSubjectModal: ForwardRefRenderFunction<
+  SchoolSubjectModalRef,
+  AddSchoolSubjectModalProps
+> = ({ refetchFn }, ref) => {
   const [schoolSubject, setSchoolSubject] = useState<SchoolSubject>();
 
   const modalRef = useRef<ModalRef>(null);
@@ -52,7 +54,8 @@ const AddSchoolSubjectModal: ForwardRefRenderFunction<SchoolSubjectModalRef> = (
 
         await addSchoolSubjectSchema.validate(values, { abortEarly: false });
 
-        mutation.mutate({ id: schoolSubject?.id, ...values });
+        await mutation.mutateAsync({ id: schoolSubject?.id, ...values });
+        refetchFn && refetchFn();
       } catch (err) {
         if (err instanceof ValidationError) {
           const validationErrors: Record<string, string> = {};
@@ -67,7 +70,7 @@ const AddSchoolSubjectModal: ForwardRefRenderFunction<SchoolSubjectModalRef> = (
         }
       }
     },
-    [mutation, schoolSubject]
+    [mutation, schoolSubject, refetchFn]
   );
 
   const handleBack = useCallback(() => {
@@ -96,10 +99,15 @@ const AddSchoolSubjectModal: ForwardRefRenderFunction<SchoolSubjectModalRef> = (
             as="textarea"
           />
           <S.ButtonsContainer>
-            <Button styleType="outlined" onClick={handleBack} type="button">
+            <Button
+              styleType="outlined"
+              size="medium"
+              onClick={handleBack}
+              type="button"
+            >
               Voltar
             </Button>
-            <Button styleType="rounded" type="submit">
+            <Button styleType="rounded" size="medium" type="submit">
               Salvar
             </Button>
           </S.ButtonsContainer>

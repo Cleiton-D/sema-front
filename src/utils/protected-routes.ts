@@ -1,9 +1,14 @@
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/client';
+import { WithAccessOptions } from './validateHasAccess';
+
+type ProtectedRoutesOptions = Partial<WithAccessOptions> & {
+  validateChangePass?: boolean;
+};
 
 async function protectedRoutes(
   context: GetServerSidePropsContext,
-  validateChangePass = true
+  options?: ProtectedRoutesOptions
 ) {
   const session = await getSession(context);
 
@@ -12,7 +17,7 @@ async function protectedRoutes(
       Location: `/sign-in?callbackUrl=${context.resolvedUrl}`
     });
     context.res.end();
-  } else if (validateChangePass && session.user.changePassword) {
+  } else if (options?.validateChangePass && session.user.changePassword) {
     context.res.writeHead(302, {
       Location: `/change-password?callbackUrl=${context.resolvedUrl}`
     });

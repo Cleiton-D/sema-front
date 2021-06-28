@@ -7,7 +7,7 @@ import { listGrades } from 'requests/queries/grades';
 import prefetchQuery from 'utils/prefetch-query';
 import protectedRoutes from 'utils/protected-routes';
 
-export default function GradePage() {
+function GradePage() {
   return <Grades />;
 }
 
@@ -26,3 +26,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   };
 }
+
+GradePage.auth = {
+  module: 'GRADE'
+};
+
+export default GradePage;

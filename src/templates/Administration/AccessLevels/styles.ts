@@ -2,38 +2,41 @@ import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 import SectionContent from 'components/SectionContent';
-import ListItem from 'components/ListItem';
 
 export const AddButtonContainer = styled.div`
-  width: 30rem;
+  width: 25rem;
   align-self: flex-end;
 `;
 
-export const CardAccessLevels = styled(SectionContent).attrs({ as: 'ul' })`
+export const TableSection = styled(SectionContent)`
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 1rem;
+`;
+export const SectionTitle = styled.div`
   ${({ theme }) => css`
-    width: 37vw;
-    height: max(50vh, 100%);
-    list-style: none;
-    padding: ${theme.spacings.xsmall} !important;
+    font-size: ${theme.font.sizes.large};
+    font-weight: ${theme.font.bold};
+    color: ${theme.colors.lightSilver};
+    padding: 2rem;
+    padding-top: 1.5rem;
   `}
 `;
 
-export const AccessLevelsItem = styled(ListItem)`
-  justify-content: space-between;
+export const ActionButtons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-export const NameAccessLevels = styled.span`
-  ${({ theme }) => css`
-    margin-left: 2rem;
-    line-height: 2.4rem;
-    color: ${theme.colors.black};
-    font-size: ${theme.font.sizes.medium};
-    font-weight: ${theme.font.normal};
-  `}
-`;
-
-export const ActionDeleteButton = styled.button`
-  ${({ theme }) => css`
+type ActionButtonProps = {
+  color: string;
+};
+export const ActionButton = styled.button<ActionButtonProps>`
+  ${({ theme, color }) => css`
     background: ${theme.colors.white};
     align-items: center;
     justify-content: center;
@@ -42,7 +45,9 @@ export const ActionDeleteButton = styled.button`
     border: 0;
     outline: 0;
     stroke-width: 2;
-    color: ${theme.colors.red};
+    color: ${color in theme.colors
+      ? theme.colors[color as keyof typeof theme.colors]
+      : color};
     padding: 0.4rem;
     transition: background 0.3s ease;
 

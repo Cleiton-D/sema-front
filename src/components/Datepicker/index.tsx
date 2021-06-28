@@ -7,6 +7,8 @@ import { format } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
 import { v4 as uuidv4 } from 'uuid';
 
+import 'react-day-picker/lib/style.css';
+
 import TextInput, { TextInputProps } from 'components/TextInput';
 
 import * as S from './styles';

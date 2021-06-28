@@ -7,7 +7,7 @@ import { getSchoolYearWithSchoolTerms } from 'requests/queries/school-year';
 import prefetchQuery from 'utils/prefetch-query';
 import protectedRoutes from 'utils/protected-routes';
 
-export default function SchoolYearPage() {
+function SchoolYearPage() {
   return <SchoolYear />;
 }
 
@@ -26,3 +26,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   };
 }
+
+SchoolYearPage.auth = {
+  module: 'SCHOOL_YEAR'
+};
+
+export default SchoolYearPage;

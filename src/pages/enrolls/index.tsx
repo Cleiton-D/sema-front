@@ -1,23 +1,28 @@
 import { GetServerSidePropsContext } from 'next';
 
-import Enrolls from 'templates/Enrolls';
+import Enrolls, { EnrollsProps } from 'templates/Enrolls';
 
 import { listEnrolls } from 'requests/queries/enrolls';
+import { getSchool } from 'requests/queries/schools';
 
 import prefetchQuery from 'utils/prefetch-query';
 import protectedRoutes from 'utils/protected-routes';
 
-export default function EnrollsPage() {
-  return <Enrolls />;
+function EnrollsPage(props: EnrollsProps) {
+  return <Enrolls {...props} />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
 
-  const { school_id } = context.params!;
+  const { school_id } = context.query || {};
+
+  const school = school_id
+    ? await getSchool(session, { id: school_id as string })
+    : null;
 
   const filters = {
-    school_id: school_id as string
+    school_id: school?.id
   };
 
   const dehydratedState = await prefetchQuery({
@@ -28,7 +33,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       session,
-      dehydratedState
+      dehydratedState,
+      school
     }
   };
 }
+
+EnrollsPage.auth = {
+  module: 'ENROLL'
+};
+
+export default EnrollsPage;

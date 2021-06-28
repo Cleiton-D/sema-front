@@ -77,11 +77,14 @@ const GradeSchoolSubjectsForm: React.ForwardRefRenderFunction<FormHandles> = (
                   selected={selectedGrade?.id === grade.id}
                 >
                   <span>{grade.description}</span>
-                  <S.ActionButton
-                    onClick={(event) => handleDeleteGrade(event, grade)}
-                  >
-                    <X />
-                  </S.ActionButton>
+
+                  {selectedGrade?.id !== grade.id && (
+                    <S.ActionButton
+                      onClick={(event) => handleDeleteGrade(event, grade)}
+                    >
+                      <X />
+                    </S.ActionButton>
+                  )}
                 </S.ListItem>
               ))}
             </S.List>

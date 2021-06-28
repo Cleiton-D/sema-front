@@ -1,4 +1,4 @@
-import { AddressFormData } from './Address';
+import { Address, AddressFormData } from './Address';
 import { Contact } from './Contact';
 
 export type Person = {
@@ -8,6 +8,7 @@ export type Person = {
   dad_name?: string;
   gender?: 'male' | 'female';
   address_id: string;
+  address?: Address;
   birth_date: string;
   created_at: string;
   updated_at: string;

@@ -9,6 +9,7 @@ import { mapSchoolTermPeriodsToObject } from 'utils/mappers/schoolTermPeriodMapp
 import { schoolYearMapper } from 'utils/mappers/schoolYearMapper';
 
 import { listClassPeriods } from './class-periods';
+import { listSchoolTermPeriods } from './school-term-periods';
 
 type GetSchoolYearFilters = {
   id?: string | 'current';
@@ -30,14 +31,9 @@ export const getSchoolYearWithSchoolTerms = async (
     .catch(() => undefined);
 
   const schoolTermPeriodsRequest = schoolYear
-    ? api
-        .get<SchoolTermPeriod[]>('/education/admin/school-term-periods', {
-          params: {
-            school_year_id: schoolYear.id
-          }
-        })
-        .then((response) => response.data)
-        .catch(() => [])
+    ? listSchoolTermPeriods(session, {
+        school_year_id: schoolYear.id
+      }).catch(() => [])
     : Promise.resolve([]);
 
   const listClassPeriodsRequest = schoolYear

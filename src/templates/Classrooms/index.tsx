@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { useRouter } from 'next/router';
+import { useRef, useMemo } from 'react';
 import { useSession } from 'next-auth/client';
 import { PlusCircle, X } from '@styled-icons/feather';
 
@@ -11,7 +10,10 @@ import Table from 'components/Table';
 import TableColumn from 'components/TableColumn';
 import ClassroomModal, { ClassroomModalRef } from 'components/ClassroomModal';
 
+import { useAccess } from 'hooks/AccessProvider';
+
 import { Classroom } from 'models/Classroom';
+import { School } from 'models/School';
 
 import { useListClassrooms } from 'requests/queries/classrooms';
 import { useDeleteClassroom } from 'requests/mutations/classroom';
@@ -20,10 +22,14 @@ import { translateDescription } from 'utils/mappers/classPeriodMapper';
 
 import * as S from './styles';
 
-const Classrooms = () => {
+export type ClassroomsProps = {
+  school: School;
+};
+
+const Classrooms = ({ school }: ClassroomsProps) => {
   const modalRef = useRef<ClassroomModalRef>(null);
 
-  const { query } = useRouter();
+  const { enableAccess } = useAccess();
 
   const [session] = useSession();
 
@@ -33,7 +39,7 @@ const Classrooms = () => {
     queryAddMutation,
     queryRemoveMutation
   } = useListClassrooms(session, {
-    school_id: query.school_id as string
+    school_id: school.id
   });
 
   const deleteClassroomMutation = useDeleteClassroom({
@@ -53,19 +59,27 @@ const Classrooms = () => {
     }
   };
 
+  const canChangeClassroom = useMemo(
+    () => enableAccess({ module: 'CLASSROOM', rule: 'WRITE' }),
+    [enableAccess]
+  );
+
   return (
     <Base>
       <Heading>Turmas</Heading>
-      <S.AddButtonContainer>
-        <Button
-          styleType="normal"
-          size="medium"
-          icon={<PlusCircle />}
-          onClick={handleAddClassroom}
-        >
-          Adicionar Turma
-        </Button>
-      </S.AddButtonContainer>
+      {canChangeClassroom && (
+        <S.AddButtonContainer>
+          <Button
+            styleType="normal"
+            size="medium"
+            icon={<PlusCircle />}
+            onClick={handleAddClassroom}
+          >
+            Adicionar Turma
+          </Button>
+        </S.AddButtonContainer>
+      )}
+
       <S.TableSection>
         <S.SectionTitle>
           <h4>Turmas</h4>
@@ -94,7 +108,7 @@ const Classrooms = () => {
           />
           <TableColumn
             label="Ações"
-            tableKey="id"
+            tableKey=""
             contentAlign="center"
             actionColumn
             render={(classroom) => (
@@ -113,6 +127,7 @@ const Classrooms = () => {
       </S.TableSection>
       <ClassroomModal
         ref={modalRef}
+        schoolId={school.id}
         createQueries={{ [key]: queryAddMutation }}
       />
     </Base>

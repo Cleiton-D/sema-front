@@ -5,6 +5,7 @@ import { useTable } from 'components/Table';
 import { getElementPositionFromParent } from 'utils/getElementPositionFromParent';
 
 import * as S from './styles';
+import { withAccessComponent } from 'hooks/AccessProvider';
 
 type RenderChildrenFunction = (item: any) => React.ReactNode;
 
@@ -17,6 +18,7 @@ export type TableColumnProps = {
   render?: (value: any) => React.ReactNode;
   children?: React.ReactNode | RenderChildrenFunction;
   open?: boolean;
+  ellipsis?: boolean;
 };
 
 const TableColumn = ({
@@ -72,4 +74,4 @@ const TableColumn = ({
   );
 };
 
-export default memo(TableColumn);
+export default withAccessComponent(memo(TableColumn));

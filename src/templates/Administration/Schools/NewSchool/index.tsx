@@ -5,14 +5,18 @@ import { useResetAtom } from 'jotai/utils';
 import Base from 'templates/Base';
 
 import Heading from 'components/Heading';
+import FormStep from 'components/FormStep';
+
 import SchoolBasicForm from 'components/SchoolBasicForm';
 import AddressForm from 'components/AddressForm';
 import ContactsForm from 'components/ContactsForm';
-import FormStep from 'components/FormStep';
+import SchoolAdministrationForm from 'components/SchoolAdministrationForm';
 
 import {
+  basicSchoolData,
   schoolAddressData,
   schoolContactsData,
+  employeesSchoolData,
   createSchoolData
 } from 'store/atoms/create-school';
 import useAtomCallback from 'hooks/use-atom-callback';
@@ -23,6 +27,12 @@ import * as S from './styles';
 
 const addressForm = <AddressForm jotaiState={schoolAddressData} />;
 const contactsForm = <ContactsForm jotaiState={schoolContactsData} />;
+const schoolAdminForm = (
+  <SchoolAdministrationForm
+    jotaiState={employeesSchoolData}
+    basicJotaiState={basicSchoolData}
+  />
+);
 
 const NewSchool = () => {
   const [session] = useSession();
@@ -34,10 +44,24 @@ const NewSchool = () => {
   const handleFinish = useAtomCallback(async (get) => {
     const finalState = get(createSchoolData);
 
-    const { contacts, ...finalData } = finalState;
+    const { contacts, employees, ...finalData } = finalState;
     const contactsWithoutId = contacts.map(({ id: _, ...contact }) => contact);
+    const employeesUsers = Object.entries(employees).reduce<
+      Record<string, string[]>
+    >((acc, item) => {
+      const [profile, items] = item;
+      const newItems = items || [];
 
-    await mutation.mutateAsync({ ...finalData, contacts: contactsWithoutId });
+      const userIds = newItems.map(({ user_id }) => user_id);
+
+      return { ...acc, [profile]: userIds };
+    }, {});
+
+    await mutation.mutateAsync({
+      ...finalData,
+      contacts: contactsWithoutId,
+      employees: employeesUsers
+    });
 
     await push('/administration/schools');
     resetForm();
@@ -50,7 +74,7 @@ const NewSchool = () => {
 
       <S.FormsSection>
         <FormStep
-          items={[addressForm, contactsForm]}
+          items={[addressForm, contactsForm, schoolAdminForm]}
           finishButtonText="Finalizar"
           onFinish={handleFinish}
         />

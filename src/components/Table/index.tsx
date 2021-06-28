@@ -5,13 +5,16 @@ import {
   createContext,
   useContext,
   useCallback,
-  memo
+  memo,
+  Children
 } from 'react';
 import mitt, { Emitter } from 'mitt';
 import debounce from 'lodash.debounce';
 
 import { TableColumnProps } from 'components/TableColumn';
 import TableRow from 'components/TableRow';
+
+import { WithAccessOptions } from 'utils/validateHasAccess';
 
 import * as S from './styles';
 
@@ -20,8 +23,8 @@ export type TableProps<T> = {
   items: T[];
   keyExtractor: (value: T) => string;
   children:
-    | React.ReactElement<TableColumnProps>
-    | React.ReactElement<TableColumnProps>[];
+    | React.ReactElement<TableColumnProps & Partial<WithAccessOptions>>
+    | React.ReactElement<TableColumnProps & Partial<WithAccessOptions>>[];
 };
 
 type TableContextProps = {

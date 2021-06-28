@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useField } from '@unform/core';
 import mergeRefs from 'react-merge-refs';
+
 import { masks } from 'utils/masks';
 
 import * as S from './styles';
@@ -23,6 +24,7 @@ export type TextInputProps = InputHtmlProps & {
   name: string;
   label: string;
   as?: InputAs;
+  size?: 'large' | 'medium' | 'small';
   type?: string;
   unformRegister?: boolean;
   icon?: React.ReactNode;
@@ -38,6 +40,7 @@ const TextInput: React.ForwardRefRenderFunction<
 > = (
   {
     as = 'input',
+    size = 'large',
     name,
     label,
     value,
@@ -47,6 +50,7 @@ const TextInput: React.ForwardRefRenderFunction<
     containerStyle,
     unformRegister = true,
     disabled = false,
+    onChangeValue,
     ...rest
   },
   ref
@@ -61,6 +65,8 @@ const TextInput: React.ForwardRefRenderFunction<
 
     const masked = mask ? masks[mask](value) : value;
     setFieldValue(masked);
+
+    onChangeValue && onChangeValue(masked);
   };
 
   useEffect(() => {
@@ -83,11 +89,17 @@ const TextInput: React.ForwardRefRenderFunction<
   }, [defaultValue, value, mask]);
 
   return (
-    <S.Wrapper inputAs={as} disabled={disabled} style={containerStyle}>
-      <S.Label hasValue={!!fieldValue} inputAs={as}>
+    <S.Wrapper
+      inputAs={as}
+      disabled={disabled}
+      style={containerStyle}
+      size={size}
+    >
+      <S.Label hasValue={!!fieldValue} inputAs={as} isDisabled={disabled}>
         <span>{label}</span>
-        <S.InputContainer>
+        <S.InputContainer size={size} hasIcon={!!icon}>
           <S.Input
+            inputSize={size}
             onChange={handleChange}
             as={as}
             ref={mergeRefs([fieldRef, ref])}

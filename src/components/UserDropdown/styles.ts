@@ -8,16 +8,26 @@ export const Wrapper = styled.div`
   `}
 `;
 
-export const Container = styled.div`
-  cursor: pointer;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  min-width: 20rem;
-  background: #fdfdfd;
-  z-index: var(--z-idx);
-  display: flex;
-  align-items: center;
+type ContainerProps = {
+  isOpen: boolean;
+};
+
+export const Container = styled.div<ContainerProps>`
+  ${({ isOpen }) => css`
+    cursor: pointer;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    min-width: 20rem;
+    background: #fdfdfd;
+    display: flex;
+    align-items: center;
+
+    ${isOpen &&
+    css`
+      z-index: var(--z-idx);
+    `}
+  `}
 `;
 
 export const Title = styled.div`

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
 import { PlusCircle, Edit3 } from '@styled-icons/feather';
@@ -9,11 +10,15 @@ import Badge from 'components/Badge';
 import ClassPeriodsTable from 'components/ClassPeriodsTable';
 import Button from 'components/Button';
 
+import { useAccess } from 'hooks/AccessProvider';
+
 import { useSchoolYearWithSchoolTerms } from 'requests/queries/school-year';
 
 import * as S from './styles';
 
 const SchoolYear = () => {
+  const { enableAccess } = useAccess();
+
   const [session] = useSession();
   const { data } = useSchoolYearWithSchoolTerms(session);
 
@@ -28,22 +33,30 @@ const SchoolYear = () => {
     push('/administration/school-year/new');
   };
 
+  const canEditSchoolYear = useMemo(
+    () => enableAccess({ module: 'SCHOOL_YEAR', rule: 'WRITE' }),
+    [enableAccess]
+  );
+
   return (
     <Base>
       <Heading>Ano Letivo</Heading>
-      <S.AddButtonContainer>
-        <Button
-          size="medium"
-          styleType="normal"
-          icon={data?.status !== 'INACTIVE' ? <Edit3 /> : <PlusCircle />}
-          onClick={handleAddSchoolYear}
-          disabled={data?.status === 'ACTIVE'}
-        >
-          {data?.status !== 'INACTIVE'
-            ? 'Alterar ano letivo'
-            : 'Cadastrar ano letivo'}
-        </Button>
-      </S.AddButtonContainer>
+      {canEditSchoolYear && (
+        <S.AddButtonContainer>
+          <Button
+            size="medium"
+            styleType="normal"
+            icon={data?.status !== 'INACTIVE' ? <Edit3 /> : <PlusCircle />}
+            onClick={handleAddSchoolYear}
+            disabled={data?.status === 'ACTIVE'}
+          >
+            {data?.status !== 'INACTIVE'
+              ? 'Alterar ano letivo'
+              : 'Cadastrar ano letivo'}
+          </Button>
+        </S.AddButtonContainer>
+      )}
+
       <S.Wrapper>
         <S.Grid columns={3}>
           <S.GridItem>

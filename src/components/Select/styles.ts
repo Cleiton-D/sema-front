@@ -41,6 +41,8 @@ export const OptionsList = styled.div<OptionsListProps>`
     top: 100%;
     left: 0;
     right: 0;
+    max-height: 30rem;
+    overflow: auto;
     background: #fdfdfd;
     padding: 1rem 0.5rem;
     padding-top: 0;

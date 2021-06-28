@@ -1,5 +1,6 @@
 import { Classroom } from './Classroom';
 import { ContactFormData } from './Contact';
+import { Grade } from './Grade';
 import { Person, PersonBasicFormData } from './Person';
 import { Status } from './Status';
 
@@ -9,6 +10,7 @@ export type Enroll = {
   person_id: string;
   school_id: string;
   grade_id: string;
+  grade?: Grade;
   school_year_id: string;
   created_at: string;
   updated_at: string;

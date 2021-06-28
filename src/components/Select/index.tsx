@@ -14,6 +14,7 @@ type SelectProps = {
   label: string;
   name: string;
   options?: Option[];
+  selectedOption?: any;
   emptyOption?: boolean;
   onChange?: (value?: any) => void;
   className?: string;
@@ -24,6 +25,7 @@ const Select = ({
   name,
   label,
   options = [],
+  selectedOption: selectedItem,
   className,
   emptyOption = false,
   disabled = false,
@@ -61,10 +63,10 @@ const Select = ({
   }, [registerField, fieldName, selectedOption, setValue]);
 
   useEffect(() => {
-    if (defaultValue) {
-      setValue(defaultValue);
+    if (defaultValue || selectedItem) {
+      setValue(defaultValue || selectedItem);
     }
-  }, [defaultValue, setValue]);
+  }, [defaultValue, setValue, selectedItem]);
 
   return (
     <S.Wrapper className={className}>

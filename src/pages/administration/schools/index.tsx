@@ -1,12 +1,13 @@
 import { GetServerSidePropsContext } from 'next';
 
 import Schools from 'templates/Administration/Schools';
+
 import { listSchools } from 'requests/queries/schools';
 import prefetchQuery from 'utils/prefetch-query';
 
 import protectedRoutes from 'utils/protected-routes';
 
-export default function SchoolsPage() {
+function SchoolsPage() {
   return <Schools />;
 }
 
@@ -25,3 +26,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   };
 }
+
+SchoolsPage.auth = {
+  module: 'SCHOOL'
+};
+
+export default SchoolsPage;

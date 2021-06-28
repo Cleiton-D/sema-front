@@ -4,6 +4,7 @@ import { CheckboxProps } from '.';
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 type InputProps = Pick<CheckboxProps, 'inactive'>;

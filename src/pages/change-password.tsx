@@ -8,7 +8,7 @@ export default function ChangePasswordPage() {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await protectedRoutes(context, false);
+  const session = await protectedRoutes(context, { validateChangePass: false });
 
   if (session && !session.user.changePassword) {
     const location = context.query.callbackUrl || '/';
