@@ -23,3 +23,11 @@ export const AddButtonContainer = styled.div`
   width: 25rem;
   align-self: flex-end;
 `;
+
+export const TableLink = styled.a`
+  ${({ theme }) => css`
+    color: ${theme.colors.primary};
+    font: inherit;
+    text-decoration: underline;
+  `}
+`;

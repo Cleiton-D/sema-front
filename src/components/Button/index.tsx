@@ -1,4 +1,5 @@
 import { forwardRef, AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
+import { withAccessComponent } from 'hooks/AccessProvider';
 
 import * as S from './styles';
 
@@ -14,7 +15,7 @@ export type ButtonProps = {
   styleType?: 'normal' | 'rounded' | 'outlined';
 } & ButtonTypes;
 
-const Button: React.ForwardRefRenderFunction<S.WrapperProps, ButtonProps> = (
+const Button: React.ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
   {
     children,
     icon,
@@ -38,4 +39,4 @@ const Button: React.ForwardRefRenderFunction<S.WrapperProps, ButtonProps> = (
   </S.Wrapper>
 );
 
-export default forwardRef(Button);
+export default withAccessComponent(forwardRef(Button));

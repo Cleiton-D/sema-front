@@ -18,5 +18,15 @@ export const masks = {
       .replace(/(^[0-9]{2}\/[0-9]{2}\/[0-9]{4})\d+?$/, '$1');
 
     return newValue;
+  },
+  'school-report': (value: string) => {
+    const newValue = value
+      .replace(/\D/g, '')
+      .replace(/(^10)(0)/, '$1.$2')
+      .replace(/(^10\.0)([1-9])/, '$1')
+      .replace(/(^(?!^10)0?[0-9])([0-9])/, '$1.$2')
+      .replace(/(^10|[0-9]\.[0-9]{2})\d+?$/, '$1');
+
+    return newValue;
   }
 };

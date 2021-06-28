@@ -29,7 +29,7 @@ type WrapperProps = {
 
 export const Wrapper = styled.th<WrapperProps>`
   ${({ theme, fixed, position, minimal, contentAlign }) => css`
-    border-bottom: 0.15rem solid ${theme.colors.lightSilver};
+    border-bottom: 0.2rem solid ${theme.colors.lightSilver};
     box-shadow: 0 0.23rem 0.1rem -0.1rem ${darken(0.2, theme.colors.lightSilver)};
 
     text-align: ${contentAlign};

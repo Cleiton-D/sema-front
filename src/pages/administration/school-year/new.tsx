@@ -5,7 +5,7 @@ import NewSchoolYear from 'templates/Administration/SchoolYear/NewSchoolYear';
 import { getStoredInitalState } from 'hooks/AtomProvider';
 import protectedRoutes from 'utils/protected-routes';
 
-export default function NewSchoolYearPage() {
+function NewSchoolYearPage() {
   return <NewSchoolYear />;
 }
 
@@ -20,3 +20,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   };
 }
+
+NewSchoolYearPage.auth = {
+  module: 'SCHOOL_YEAR'
+};
+
+export default NewSchoolYearPage;

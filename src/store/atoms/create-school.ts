@@ -1,15 +1,13 @@
 import { atom } from 'jotai';
 import { atomWithReset, RESET } from 'jotai/utils';
+
 import { AddressFormData } from 'models/Address';
 import { ContactFormData } from 'models/Contact';
+import { Employee } from 'models/Employee';
+import { BasicSchoolFormType } from 'models/School';
 
-type BasicSchoolType = {
-  name: string;
-  inep_code: string;
-};
-
-export const basicSchoolData = atomWithReset<BasicSchoolType>(
-  {} as BasicSchoolType
+export const basicSchoolData = atomWithReset<BasicSchoolFormType>(
+  {} as BasicSchoolFormType
 );
 
 export const schoolAddressData = atomWithReset<AddressFormData>(
@@ -18,9 +16,14 @@ export const schoolAddressData = atomWithReset<AddressFormData>(
 
 export const schoolContactsData = atomWithReset<ContactFormData[]>([]);
 
-type SchoolFormData = BasicSchoolType & {
+export const employeesSchoolData = atomWithReset<Record<string, Employee[]>>(
+  {}
+);
+
+type SchoolFormData = BasicSchoolFormType & {
   address: AddressFormData;
   contacts: ContactFormData[];
+  employees: Record<string, Employee[]>;
 };
 
 export const createSchoolData = atom<
@@ -31,24 +34,28 @@ export const createSchoolData = atom<
     const basicData = get(basicSchoolData);
     const address = get(schoolAddressData);
     const contacts = get(schoolContactsData);
+    const employees = get(employeesSchoolData);
 
     return {
       ...basicData,
       address,
-      contacts
+      contacts,
+      employees
     };
   },
   (_get, set, newValue) => {
     if (newValue === RESET) {
-      set(basicSchoolData, newValue);
-      set(schoolAddressData, newValue);
-      set(schoolContactsData, newValue);
+      set(basicSchoolData, RESET);
+      set(schoolAddressData, RESET);
+      set(schoolContactsData, RESET);
+      set(employeesSchoolData, RESET);
       return;
     }
 
-    const { address, contacts, ...basic } = newValue;
+    const { address, contacts, employees, ...basic } = newValue;
     set(basicSchoolData, basic);
     set(schoolAddressData, address || {});
     set(schoolContactsData, contacts || {});
+    set(employeesSchoolData, employees || {});
   }
 );

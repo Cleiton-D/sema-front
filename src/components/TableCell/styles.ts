@@ -11,6 +11,12 @@ const wrapperModifiers = {
   `,
   showingDetail: (theme: DefaultTheme) => css`
     box-shadow: inset 5px 0px ${theme.colors.secondary};
+  `,
+  ellipsis: () => css`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 2rem;
   `
 };
 
@@ -20,6 +26,7 @@ type WrapperProps = {
   minimal: boolean;
   contentAlign?: 'left' | 'center' | 'right';
   showingDetail?: boolean;
+  ellipsis?: boolean;
 };
 export const Wrapper = styled.td<WrapperProps>`
   ${({
@@ -28,7 +35,8 @@ export const Wrapper = styled.td<WrapperProps>`
     position,
     minimal,
     contentAlign = 'left',
-    showingDetail
+    showingDetail,
+    ellipsis = false
   }) => css`
     font-size: ${theme.font.sizes.medium};
     color: ${theme.colors.silver};
@@ -37,18 +45,10 @@ export const Wrapper = styled.td<WrapperProps>`
     padding: ${theme.spacings.xsmall};
     background: ${theme.colors.white};
     text-align: ${contentAlign};
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 2rem;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 2rem;
 
     transition: box-shadow 0.3s ease-out;
 
+    ${!!ellipsis && wrapperModifiers.ellipsis()}
     ${!!fixed && columnFixedModifier(theme, position)}
     ${!!minimal && wrapperModifiers.minimal(theme)};
     ${!!showingDetail && wrapperModifiers.showingDetail(theme)}

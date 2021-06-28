@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { useSession } from 'next-auth/client';
 import { PlusCircle, Edit, X } from '@styled-icons/feather';
 
@@ -12,6 +12,8 @@ import AddSchoolSubjectModal, {
   SchoolSubjectModalRef
 } from 'components/AddSchoolSubjectModal';
 
+import { useAccess } from 'hooks/AccessProvider';
+
 import { SchoolSubject } from 'models/SchoolSubject';
 
 import { useListSchoolsSubjects } from 'requests/queries/school-subjects';
@@ -20,8 +22,10 @@ import { useDeleteSchoolSubjectMutation } from 'requests/mutations/school-subjec
 import * as S from './styles';
 
 const SchoolSubjects = () => {
+  const { enableAccess } = useAccess();
+
   const [session] = useSession();
-  const { data } = useListSchoolsSubjects(session);
+  const { data: schoolSubjects, refetch } = useListSchoolsSubjects(session);
 
   const modalRef = useRef<SchoolSubjectModalRef>(null);
   const handleOpenModal = () => {
@@ -29,44 +33,56 @@ const SchoolSubjects = () => {
   };
 
   const mutation = useDeleteSchoolSubjectMutation(session);
-  const handleDelete = (schoolSubject: SchoolSubject) => {
+  const handleDelete = async (schoolSubject: SchoolSubject) => {
     const confirmation = window.confirm(
       `Deseja excluir a disciplina ${schoolSubject.description}?`
     );
     if (confirmation) {
-      mutation.mutate(schoolSubject);
+      await mutation.mutateAsync(schoolSubject);
+      refetch();
     }
   };
+
+  const canChangeSchoolSubjects = useMemo(
+    () => enableAccess({ module: 'SCHOOL-SUBJECT', rule: 'WRITE' }),
+    [enableAccess]
+  );
 
   return (
     <Base>
       <Heading>Disciplinas</Heading>
-      <S.AddButtonContainer>
-        <Button
-          styleType="normal"
-          icon={<PlusCircle />}
-          onClick={handleOpenModal}
-        >
-          Adicionar Disciplinas
-        </Button>
-      </S.AddButtonContainer>
+      {canChangeSchoolSubjects && (
+        <S.AddButtonContainer>
+          <Button
+            styleType="normal"
+            size="medium"
+            icon={<PlusCircle />}
+            onClick={handleOpenModal}
+          >
+            Adicionar Disciplinas
+          </Button>
+        </S.AddButtonContainer>
+      )}
 
       <S.TableSection>
         <S.SectionTitle>
           <h4>Disciplinas</h4>
         </S.SectionTitle>
       </S.TableSection>
-      <Table items={data || []} keyExtractor={(item) => item.id}>
+      <Table items={schoolSubjects || []} keyExtractor={(item) => item.id}>
         <TableColumn label="Nome" tableKey="description" />
         <TableColumn
           label="Descrição da disciplina"
           tableKey="additional_description"
+          ellipsis
         />
         <TableColumn
           label="Ações"
           tableKey="id"
           contentAlign="center"
           actionColumn
+          module="SCHOOL-SUBJECT"
+          rule="WRITE"
           render={(schoolSubject) => (
             <S.ActionButtons>
               <S.ActionEditButton
@@ -89,7 +105,7 @@ const SchoolSubjects = () => {
           )}
         />
       </Table>
-      <AddSchoolSubjectModal ref={modalRef} />
+      <AddSchoolSubjectModal refetchFn={refetch} ref={modalRef} />
     </Base>
   );
 };

@@ -21,7 +21,7 @@ const UserDropdown = ({ username, image }: UserDropdownProps) => {
 
   return (
     <S.Wrapper>
-      <S.Container>
+      <S.Container isOpen={show}>
         <S.Title onClick={toggleDropdown}>
           <S.UserContainer>
             <span>

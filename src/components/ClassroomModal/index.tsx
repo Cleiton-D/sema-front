@@ -1,5 +1,4 @@
 import { useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
 
 import Modal, { ModalRef } from 'components/Modal';
@@ -21,6 +20,7 @@ export type ClassroomModalRef = {
 
 type ClassroomModalProps = {
   createQueries: Record<string, ProcessQueryDataFn>;
+  schoolId: string;
 };
 
 type ClassroomForm = {
@@ -32,9 +32,8 @@ type ClassroomForm = {
 const ClassroomModal: React.ForwardRefRenderFunction<
   ClassroomModalRef,
   ClassroomModalProps
-> = ({ createQueries }, ref) => {
+> = ({ createQueries, schoolId }, ref) => {
   const modalRef = useRef<ModalRef>(null);
-  const { query } = useRouter();
 
   const [session] = useSession();
   const { data: classPeriods } = useListClassPeriods(session, {
@@ -72,7 +71,7 @@ const ClassroomModal: React.ForwardRefRenderFunction<
 
     addClassroomMutation.mutate({
       ...values,
-      school_id: query.school_id,
+      school_id: schoolId,
       enroll_count: 0,
       grade: {
         description: selectedGrade?.label

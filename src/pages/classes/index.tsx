@@ -1,11 +1,11 @@
 import { GetServerSidePropsContext } from 'next';
 
-import NewEnroll from 'templates/Enrolls/New';
+import ClassesTemplate from 'templates/Classes';
 
 import protectedRoutes from 'utils/protected-routes';
 
-export default function NewEnrollPage() {
-  return <NewEnroll />;
+function ClassesPage() {
+  return <ClassesTemplate />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -17,3 +17,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   };
 }
+
+ClassesPage.auth = {
+  module: 'CLASS'
+};
+
+export default ClassesPage;

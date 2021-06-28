@@ -1,13 +1,14 @@
 import { GetServerSidePropsContext } from 'next';
-import { getSchool } from 'requests/queries/schools';
 
-import School from 'templates/School';
+import SchoolPageTemplate, { SchoolProps } from 'templates/School';
+
+import { getSchool, getSchoolDetail } from 'requests/queries/schools';
+
 import prefetchQuery from 'utils/prefetch-query';
-
 import protectedRoutes from 'utils/protected-routes';
 
-export default function SchoolPage() {
-  return <School />;
+function SchoolPage(props: SchoolProps) {
+  return <SchoolPageTemplate {...props} />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -15,19 +16,24 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const { school_id } = context.params!;
 
-  const filters = {
-    id: school_id as string
-  };
+  const school = await getSchool(session, { id: school_id as string });
 
   const dehydratedState = await prefetchQuery({
-    key: `get-school${JSON.stringify(filters)}`,
-    fetcher: () => getSchool(session, filters)
+    key: `school_detail-${school.id}`,
+    fetcher: () => getSchoolDetail(school.id, session)
   });
 
   return {
     props: {
       session,
-      dehydratedState
+      dehydratedState,
+      school
     }
   };
 }
+
+SchoolPage.auth = {
+  module: 'SCHOOL'
+};
+
+export default SchoolPage;

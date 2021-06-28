@@ -1,15 +1,16 @@
 import { useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
 import { Scope, FormHandles as UnformHandles } from '@unform/core';
 import { PrimitiveAtom, useAtom } from 'jotai';
+import { ValidationError } from 'yup';
 
 import TextInput from 'components/TextInput';
 
 import { PersonBasicFormData } from 'models/Person';
 import { FormHandles } from 'models/Form';
 
-import * as S from './styles';
 import { personSchema } from './rules/schema';
-import { ValidationError } from 'yup';
+
+import * as S from './styles';
 
 type PersonFormProps = {
   jotaiState: PrimitiveAtom<PersonBasicFormData>;
@@ -59,7 +60,7 @@ const PersonForm: React.ForwardRefRenderFunction<
   return (
     <S.Wrapper>
       <S.SectionTitle>
-        <h4>Dados do aluno</h4>
+        <h4>Dados pessoais</h4>
       </S.SectionTitle>
       <S.Form onSubmit={handleSubmit} initialData={state} ref={formRef}>
         <S.FieldsContainer>

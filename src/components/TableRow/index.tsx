@@ -10,6 +10,8 @@ import React, {
 import { TableColumnProps } from 'components/TableColumn';
 import TableCell from 'components/TableCell';
 
+import { WithAccessOptions } from 'utils/validateHasAccess';
+
 import * as S from './styles';
 
 type RenderChildrenFunction = (item: any) => React.ReactNode;
@@ -17,8 +19,8 @@ type RenderChildrenFunction = (item: any) => React.ReactNode;
 type TableRowProps = {
   item: Record<string, any>;
   columns:
-    | React.ReactElement<TableColumnProps>
-    | React.ReactElement<TableColumnProps>[];
+    | React.ReactElement<TableColumnProps & Partial<WithAccessOptions>>
+    | React.ReactElement<TableColumnProps & Partial<WithAccessOptions>>[];
   rowKey: string;
 };
 
@@ -61,6 +63,8 @@ const TableRow = ({ item, columns, rowKey }: TableRowProps): JSX.Element => {
             item={item}
             objectKey={columnProps.tableKey}
             renderInternalContent={handleOpen}
+            module={columnProps.module}
+            rule={columnProps.rule}
           />
         ))}
       </S.Wrapper>

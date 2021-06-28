@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { useSession } from 'next-auth/client';
 import { Edit3, X } from '@styled-icons/feather';
 
@@ -8,11 +8,14 @@ import GradeSchoolSubjectModal, {
   GradeSchoolSubjectModalRef
 } from 'components/GradeSchoolSubjectModal';
 
+import { useAccess } from 'hooks/AccessProvider';
+
+import { GradeSchoolSubject } from 'models/GradeSchoolSubject';
+
 import { useListGradeSchoolSubjects } from 'requests/queries/grade-school-subjects';
 import { useDeleteGradeSchoolSubject } from 'requests/mutations/grade-school-subject';
 
 import * as S from './styles';
-import { GradeSchoolSubject } from 'models/GradeSchoolSubject';
 
 type GradeSchoolSubjectsCardProps = {
   gradeId?: string;
@@ -25,8 +28,9 @@ const GradeSchoolSubjectsCard = ({
 }: GradeSchoolSubjectsCardProps) => {
   const modalRef = useRef<GradeSchoolSubjectModalRef>(null);
 
-  const [session] = useSession();
+  const { enableAccess } = useAccess();
 
+  const [session] = useSession();
   const { data, isLoading, refetch } = useListGradeSchoolSubjects(session, {
     grade_id: gradeId,
     school_year_id: schoolYearId
@@ -44,13 +48,23 @@ const GradeSchoolSubjectsCard = ({
     }
   };
 
+  const canChangeGradeSchoolSubject = useMemo(
+    () => enableAccess({ module: 'GRADE_SCHOOL_SUBJECT', rule: 'WRITE' }),
+    [enableAccess]
+  );
+
   return (
     <S.Wrapper>
       <S.Section>
         <S.SectionTitle>
           <h4>Disciplinas</h4>
           {gradeId && data && (
-            <Button size="small" onClick={() => modalRef.current?.openModal()}>
+            <Button
+              module="GRADE_SCHOOL_SUBJECT"
+              rule="WRITE"
+              size="small"
+              onClick={() => modalRef.current?.openModal()}
+            >
               Adicionar disciplina
             </Button>
           )}
@@ -70,16 +84,22 @@ const GradeSchoolSubjectsCard = ({
                             {item.workload}h
                           </span>
 
-                          <div>
-                            <S.ActionButton
-                              onClick={() => modalRef.current?.openModal(item)}
-                            >
-                              <Edit3 size={20} color="#0393BE" />
-                            </S.ActionButton>
-                            <S.ActionButton onClick={() => handleRemove(item)}>
-                              <X />
-                            </S.ActionButton>
-                          </div>
+                          {canChangeGradeSchoolSubject && (
+                            <div>
+                              <S.ActionButton
+                                onClick={() =>
+                                  modalRef.current?.openModal(item)
+                                }
+                              >
+                                <Edit3 size={20} color="#0393BE" />
+                              </S.ActionButton>
+                              <S.ActionButton
+                                onClick={() => handleRemove(item)}
+                              >
+                                <X />
+                              </S.ActionButton>
+                            </div>
+                          )}
                         </S.ItemContent>
                       </ListItem>
                     ))}
@@ -106,7 +126,7 @@ const GradeSchoolSubjectsCard = ({
           </S.ListSection>
         ) : (
           <S.Message>
-            Selecione uma série para visualizar as disciplinas
+            Selecione uma série para visualizar suas disciplinas
           </S.Message>
         )}
       </S.Section>

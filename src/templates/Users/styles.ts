@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 import SectionContent from 'components/SectionContent';
+import theme from 'styles/theme';
 
 export const TableSection = styled(SectionContent)`
   margin-top: 2rem;
@@ -25,8 +26,11 @@ export const AddButtonContainer = styled.div`
   align-self: flex-end;
 `;
 
-export const ActionButton = styled.button`
-  ${({ theme }) => css`
+type ActionButtonProps = {
+  color: keyof typeof theme.colors;
+};
+export const ActionButton = styled.button<ActionButtonProps>`
+  ${({ theme, color }) => css`
     background: ${theme.colors.white};
     align-items: center;
     justify-content: center;
@@ -35,7 +39,7 @@ export const ActionButton = styled.button`
     border: 0;
     outline: 0;
     stroke-width: 2;
-    color: ${theme.colors.red};
+    color: ${theme.colors[color]};
     padding: 0.4rem;
     transition: background 0.3s ease;
 
@@ -43,4 +47,10 @@ export const ActionButton = styled.button`
       background: ${darken(0.05, theme.colors.white)};
     }
   `}
+`;
+
+export const ActionButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

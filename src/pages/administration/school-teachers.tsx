@@ -1,12 +1,11 @@
 import { GetServerSidePropsContext } from 'next';
-import { signOut } from 'next-auth/client';
 
-import Dashboard from 'templates/Dashboard';
+import SchoolTeachers from 'templates/Administration/SchoolTeachers';
 
 import protectedRoutes from 'utils/protected-routes';
 
-export default function DashboardPage() {
-  return <Dashboard />;
+function SchoolTeachersPage() {
+  return <SchoolTeachers />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -18,3 +17,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   };
 }
+
+SchoolTeachersPage.auth = {
+  module: 'SCHOOL_TEACHER'
+};
+
+export default SchoolTeachersPage;
